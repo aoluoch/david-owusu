@@ -1,17 +1,13 @@
-
-import './App.css'
+import { RouterProvider } from "react-router-dom";
+import { ContentProvider } from "./lib/ContentContext";
+import { router } from "./router";
 
 function App() {
-
-
   return (
-    <>
-    <h1 className="text-3xl font-bold underline">
-    Hello world!
-  </h1>
-      
-    </>
-  )
+    <ContentProvider>
+      <RouterProvider router={router} />
+    </ContentProvider>
+  );
 }
 
-export default App
+export default App;

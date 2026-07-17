@@ -1,1 +1,73 @@
 @import "tailwindcss";
+
+@theme {
+  --color-royal: #0b3c91;
+  --color-navy: #102542;
+  --color-gold: #c8a046;
+  --color-slate-brand: #1f2937;
+  --color-light: #f5f7fa;
+
+  --font-heading: "Playfair Display", ui-serif, Georgia, serif;
+  --font-body: "Poppins", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--color-slate-brand);
+    background: #ffffff;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: var(--font-heading);
+  }
+}
+
+@layer components {
+  .hero-gradient {
+    background: linear-gradient(
+      135deg,
+      #102542 0%,
+      #0b3c91 50%,
+      #102542 100%
+    );
+  }
+
+  .gold-gradient {
+    background: linear-gradient(135deg, #c8a046, #e8c96a);
+  }
+
+  .card-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .card-lift:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(11, 60, 145, 0.15);
+  }
+
+  .glass {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
