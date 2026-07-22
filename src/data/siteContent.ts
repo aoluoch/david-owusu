@@ -17,13 +17,35 @@ export const defaultSiteContent: SiteContent = {
     { label: "Leadership", to: "/leadership" },
     { label: "Corporate", to: "/corporate" },
     { label: "Events", to: "/events" },
+    { label: "Blog", to: "/blog" },
     { label: "Gallery", to: "/gallery" },
     { label: "Contact", to: "/contact" },
   ],
 
   ctaButtons: {
-    primary: { label: "Invite David", to: "/contact" },
-    secondary: { label: "Partner With Us", to: "/contact" },
+    primary: { label: "Invite David", to: "/invite" },
+    secondary: { label: "Partner With Us", to: "/partner" },
+  },
+
+  pageHeaders: {
+    about: {
+      eyebrow: "About David Owusu",
+      title: "A Life Dedicated to Purpose, Leadership & Global Impact",
+      description:
+        "Christian leader, apostolic voice, corporate executive, author, mentor, and humanitarian shaping leaders across five continents.",
+    },
+    leadership: {
+      eyebrow: "Leadership",
+      title: "Raising Leaders Worthy of Trust",
+      description:
+        "Frameworks, programs, and resources for leaders who want to grow in character, competence, and calling.",
+    },
+    corporate: {
+      eyebrow: "Corporate",
+      title: "Executive Advisory, Coaching & Strategic Consulting",
+      description:
+        "A trusted counsel to boards, CEOs, and executive teams navigating growth, transition, and transformation.",
+    },
   },
 
   hero: {
@@ -240,6 +262,7 @@ export const defaultSiteContent: SiteContent = {
           { label: "About", to: "/about" },
           { label: "Leadership", to: "/leadership" },
           { label: "Events", to: "/events" },
+          { label: "Blog", to: "/blog" },
           { label: "Gallery", to: "/gallery" },
           { label: "Contact", to: "/contact" },
         ],

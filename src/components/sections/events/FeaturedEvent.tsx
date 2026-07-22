@@ -1,6 +1,7 @@
 import { Calendar, MapPin } from "lucide-react";
 import { useContent } from "../../../lib/ContentContext";
-import { ButtonAnchor } from "../../ui/Button";
+import { slugify } from "../../../lib/utils";
+import { ButtonLink, SmartButtonLink } from "../../ui/Button";
 import { Container } from "../../ui/Container";
 import { Reveal } from "../../ui/Reveal";
 import { SectionHeading } from "../../ui/SectionHeading";
@@ -10,6 +11,8 @@ export function FeaturedEvent() {
   const featured = events.find((e) => e.featured) ?? events[0];
 
   if (!featured) return null;
+
+  const detailTo = `/events/${featured.slug ?? slugify(featured.title)}`;
 
   return (
     <section className="py-24 bg-white">
@@ -45,9 +48,16 @@ export function FeaturedEvent() {
                   {featured.description}
                 </p>
               )}
-              <ButtonAnchor href={featured.ctaTo} variant="gold">
-                {featured.ctaLabel}
-              </ButtonAnchor>
+              <div className="flex flex-wrap gap-3">
+                <ButtonLink to={detailTo} variant="gold">
+                  View Details
+                </ButtonLink>
+                {featured.ctaTo && (
+                  <SmartButtonLink to={featured.ctaTo} variant="outline">
+                    {featured.ctaLabel}
+                  </SmartButtonLink>
+                )}
+              </div>
             </div>
           </div>
         </Reveal>

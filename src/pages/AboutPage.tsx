@@ -6,17 +6,17 @@ import {
   AboutTimeline,
   AboutValues,
 } from "../components/sections/about";
-import { FinalCTA, PageHero } from "../components/sections/shared";
+import { PageHero } from "../components/sections/shared";
 
 export function AboutPage() {
-  const { about } = useContent();
+  const { about, pageHeaders } = useContent();
 
   return (
     <>
       <PageHero
-        eyebrow="About David Owusu"
-        title="A Life Dedicated to Purpose, Leadership & Global Impact"
-        description="Christian leader, apostolic voice, corporate executive, author, mentor, and humanitarian shaping leaders across five continents."
+        eyebrow={pageHeaders.about.eyebrow}
+        title={pageHeaders.about.title}
+        description={pageHeaders.about.description}
         imageUrl={about.heroImage}
       />
       <AboutBiography />
@@ -24,7 +24,6 @@ export function AboutPage() {
       <AboutValues />
       <AboutAwards />
       <AboutQuote />
-      <FinalCTA />
     </>
   );
 }

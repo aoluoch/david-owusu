@@ -1,3 +1,4 @@
+import { useContent } from "../lib/ContentContext";
 import {
   LeadershipBooks,
   LeadershipPhilosophy,
@@ -5,19 +6,17 @@ import {
   LeadershipPrograms,
   LeadershipSpeakingTopics,
 } from "../components/sections/leadership";
-import {
-  FinalCTA,
-  PageHero,
-  Testimonials,
-} from "../components/sections/shared";
+import { PageHero, Testimonials } from "../components/sections/shared";
 
 export function LeadershipPage() {
+  const { pageHeaders } = useContent();
+
   return (
     <>
       <PageHero
-        eyebrow="Leadership"
-        title="Raising Leaders Worthy of Trust"
-        description="Frameworks, programs, and resources for leaders who want to grow in character, competence, and calling."
+        eyebrow={pageHeaders.leadership.eyebrow}
+        title={pageHeaders.leadership.title}
+        description={pageHeaders.leadership.description}
       />
       <LeadershipPhilosophy />
       <LeadershipPrinciples />
@@ -25,7 +24,6 @@ export function LeadershipPage() {
       <LeadershipBooks />
       <LeadershipSpeakingTopics />
       <Testimonials />
-      <FinalCTA />
     </>
   );
 }

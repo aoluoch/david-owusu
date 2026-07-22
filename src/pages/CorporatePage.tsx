@@ -1,29 +1,27 @@
+import { useContent } from "../lib/ContentContext";
 import {
   CorporateBio,
   CorporateCaseStudies,
   CorporateIndustries,
   CorporateServices,
 } from "../components/sections/corporate";
-import {
-  FeaturedOrganizations,
-  FinalCTA,
-  PageHero,
-} from "../components/sections/shared";
+import { FeaturedOrganizations, PageHero } from "../components/sections/shared";
 
 export function CorporatePage() {
+  const { pageHeaders } = useContent();
+
   return (
     <>
       <PageHero
-        eyebrow="Corporate"
-        title="Executive Advisory, Coaching & Strategic Consulting"
-        description="A trusted counsel to boards, CEOs, and executive teams navigating growth, transition, and transformation."
+        eyebrow={pageHeaders.corporate.eyebrow}
+        title={pageHeaders.corporate.title}
+        description={pageHeaders.corporate.description}
       />
       <CorporateBio />
       <CorporateServices />
       <CorporateIndustries />
       <CorporateCaseStudies />
       <FeaturedOrganizations />
-      <FinalCTA />
     </>
   );
 }

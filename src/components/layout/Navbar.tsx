@@ -3,7 +3,7 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { useContent } from "../../lib/ContentContext";
 import { cn } from "../../lib/utils";
-import { ButtonLink } from "../ui/Button";
+import { SmartButtonLink } from "../ui/Button";
 
 export function Navbar() {
   const { brand, nav, ctaButtons } = useContent();
@@ -68,16 +68,16 @@ export function Navbar() {
         </div>
 
         <div className="hidden lg:flex items-center gap-3">
-          <ButtonLink to={ctaButtons.primary.to} variant="gold" size="md">
+          <SmartButtonLink to={ctaButtons.primary.to} variant="gold" size="md">
             {ctaButtons.primary.label}
-          </ButtonLink>
-          <ButtonLink
+          </SmartButtonLink>
+          <SmartButtonLink
             to={ctaButtons.secondary.to}
             variant={scrolled ? "outlineDark" : "outline"}
             size="md"
           >
             {ctaButtons.secondary.label}
-          </ButtonLink>
+          </SmartButtonLink>
         </div>
 
         <button
@@ -119,16 +119,16 @@ export function Navbar() {
             </NavLink>
           ))}
           <div className="pt-3 flex flex-col gap-3">
-            <ButtonLink to={ctaButtons.primary.to} variant="primary" size="md">
+            <SmartButtonLink to={ctaButtons.primary.to} variant="primary" size="md">
               {ctaButtons.primary.label}
-            </ButtonLink>
-            <ButtonLink
+            </SmartButtonLink>
+            <SmartButtonLink
               to={ctaButtons.secondary.to}
               variant="outlineDark"
               size="md"
             >
               {ctaButtons.secondary.label}
-            </ButtonLink>
+            </SmartButtonLink>
           </div>
         </div>
       </div>

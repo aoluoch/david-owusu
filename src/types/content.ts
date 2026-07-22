@@ -34,6 +34,13 @@ export interface NavLink {
   to: string;
 }
 
+/** The hero band (eyebrow + title + description) at the top of a page. */
+export interface PageHeader {
+  eyebrow: string;
+  title: string;
+  description: string;
+}
+
 export interface HeroContent {
   eyebrow?: string;
   headline: string;
@@ -80,6 +87,8 @@ export interface Organization {
 }
 
 export interface EventItem {
+  id?: string;
+  slug?: string;
   title: string;
   date: string;
   location: string;
@@ -88,7 +97,53 @@ export interface EventItem {
   ctaLabel: string;
   ctaTo: string;
   featured?: boolean;
+  /** Short plain-text summary shown on cards. */
   description?: string;
+  /** Full rich-text (HTML) body shown on the event detail page. */
+  body?: string;
+  published?: boolean;
+  order?: number;
+}
+
+export interface BlogPost {
+  id?: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  /** Rich-text (HTML) body. */
+  body: string;
+  coverImageUrl: string;
+  coverImageAlt: string;
+  author: string;
+  tags: string[];
+  published: boolean;
+  /** ISO date string. */
+  publishedAt: string;
+}
+
+/** The kind of inquiry a visitor submitted through a public form. */
+export type SubmissionType =
+  | "Speaking Invitation"
+  | "Partnership"
+  | "Business Inquiry"
+  | "Prayer Request"
+  | "Media Request"
+  | "General";
+
+/** A message submitted by a site visitor, received by the admin. */
+export interface Submission {
+  id?: string;
+  type: SubmissionType | string;
+  name: string;
+  email: string;
+  phone?: string;
+  organization?: string;
+  /** Optional context line (e.g. event name, date, engagement). */
+  subject?: string;
+  message: string;
+  read: boolean;
+  /** ISO date string (Appwrite `$createdAt`). */
+  createdAt: string;
 }
 
 export interface Testimonial {
@@ -149,6 +204,12 @@ export interface SiteContent {
   brand: { name: string; tagline: string };
   nav: NavLink[];
   ctaButtons: { primary: NavLink; secondary: NavLink };
+  /** Editable page hero bands for the static content pages. */
+  pageHeaders: {
+    about: PageHeader;
+    leadership: PageHeader;
+    corporate: PageHeader;
+  };
   hero: HeroContent;
   stats: Stat[];
   aboutPreview: AboutPreviewContent;

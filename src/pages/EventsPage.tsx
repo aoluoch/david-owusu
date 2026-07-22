@@ -1,9 +1,5 @@
 import { FeaturedEvent } from "../components/sections/events";
-import {
-  FinalCTA,
-  PageHero,
-  UpcomingEvents,
-} from "../components/sections/shared";
+import { PageHero, UpcomingEvents } from "../components/sections/shared";
 
 export function EventsPage() {
   return (
@@ -20,7 +16,6 @@ export function EventsPage() {
         subheading="Every scheduled gathering — from leadership summits to executive workshops and community initiatives."
         background="light"
       />
-      <FinalCTA />
     </>
   );
 }

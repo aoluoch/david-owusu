@@ -8,7 +8,6 @@ import {
 } from "../components/sections/home";
 import {
   FeaturedOrganizations,
-  FinalCTA,
   Testimonials,
   UpcomingEvents,
 } from "../components/sections/shared";
@@ -25,7 +24,6 @@ export function HomePage() {
       <UpcomingEvents />
       <Testimonials />
       <GalleryPreview />
-      <FinalCTA />
     </>
   );
 }

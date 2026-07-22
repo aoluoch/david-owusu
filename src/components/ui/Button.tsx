@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { cn } from "../../lib/utils";
+import { cn, isExternalUrl } from "../../lib/utils";
 
 type Variant = "primary" | "gold" | "outline" | "outlineDark";
 type Size = "md" | "lg";
@@ -57,6 +57,37 @@ export function ButtonLink({
   className,
   children,
 }: LinkButtonProps) {
+  return (
+    <Link to={to} className={classes(variant, size, className)}>
+      {children}
+    </Link>
+  );
+}
+
+/**
+ * Renders an internal react-router link or an external anchor automatically,
+ * based on the `to` value. Use for admin-configurable destinations (e.g. the
+ * navbar CTA buttons, event "Register" links) that may point anywhere.
+ */
+export function SmartButtonLink({
+  to,
+  variant = "primary",
+  size = "lg",
+  className,
+  children,
+}: LinkButtonProps) {
+  if (isExternalUrl(to)) {
+    const external = /^(https?:)?\/\//i.test(to);
+    return (
+      <a
+        href={to}
+        className={classes(variant, size, className)}
+        {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      >
+        {children}
+      </a>
+    );
+  }
   return (
     <Link to={to} className={classes(variant, size, className)}>
       {children}
