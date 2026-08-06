@@ -157,8 +157,7 @@ davidowusu/
 │   │   └── utils.ts            # cn(), slugify(), isExternalUrl()
 │   │
 │   ├── data/
-│   │   └── siteContent.ts      # Default/fallback content (used when
-│   │                           # Appwrite is not configured)
+│   │   └── siteContent.ts      # Empty content shell; public content is admin-sourced
 │   │
 │   └── types/
 │       └── content.ts          # SiteContent, EventItem, BlogPost interfaces
@@ -215,7 +214,7 @@ npm run setup:appwrite
 
 This idempotent script creates the database, the `site_content`, `events`, and
 `blog` collections (with attributes + indexes), the `media` storage bucket, a
-seed content document, a couple of sample events, one blog post, and — if
+blank content document, and — if
 `ADMIN_EMAIL`/`ADMIN_PASSWORD` are set — an admin user. Re-running it safely
 skips anything that already exists.
 

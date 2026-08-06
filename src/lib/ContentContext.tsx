@@ -8,7 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import type { SiteContent } from "../types/content";
-import { defaultSiteContent } from "../data/siteContent";
+import { emptySiteContent } from "../data/siteContent";
 import { fetchSiteContent } from "./api";
 import {
   appwriteConfig,
@@ -20,21 +20,21 @@ import {
 interface ContentContextValue {
   content: SiteContent;
   loading: boolean;
-  source: "default" | "appwrite";
+  source: "empty" | "appwrite";
   refresh: () => Promise<void>;
 }
 
 const ContentContext = createContext<ContentContextValue>({
-  content: defaultSiteContent,
+  content: emptySiteContent,
   loading: false,
-  source: "default",
+  source: "empty",
   refresh: async () => {},
 });
 
 export function ContentProvider({ children }: { children: ReactNode }) {
-  const [content, setContent] = useState<SiteContent>(defaultSiteContent);
+  const [content, setContent] = useState<SiteContent>(emptySiteContent);
   const [loading, setLoading] = useState<boolean>(isAppwriteConfigured);
-  const [source, setSource] = useState<"default" | "appwrite">("default");
+  const [source, setSource] = useState<"empty" | "appwrite">("empty");
 
   /** Re-fetch content without toggling the loading flag (for live updates). */
   const applyLatest = useCallback(async () => {

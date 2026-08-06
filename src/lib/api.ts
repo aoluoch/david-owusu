@@ -2,13 +2,9 @@
  * Data-access layer built on top of Appwrite.
  *
  * - Site content lives in a single "singleton" document whose `data` attribute
- *   holds a JSON blob matching (a subset of) the `SiteContent` shape. Anything
- *   not overridden falls back to `defaultSiteContent`.
+ *   holds a JSON blob matching (a subset of) the `SiteContent` shape.
  * - Events and blog posts each live in their own collection so they can have
  *   detail pages, slugs, and rich-text bodies.
- *
- * Every read gracefully falls back so the public site keeps rendering even
- * when Appwrite is not configured or is temporarily unavailable.
  */
 
 import type { Models } from "appwrite";
@@ -23,7 +19,7 @@ import {
   isAppwriteConfigured,
   storage,
 } from "./appwrite";
-import { defaultSiteContent } from "../data/siteContent";
+import { emptySiteContent } from "../data/siteContent";
 import { slugify } from "./utils";
 import type {
   BlogPost,
@@ -192,11 +188,11 @@ export async function fetchSiteContentBlob(): Promise<Partial<SiteContentBlob> |
 }
 
 /**
- * Full site content used by the public site: defaults merged with the stored
- * blob, with events replaced by the published events from their collection.
+ * Full site content used by the public site: admin-authored content merged
+ * into an empty structural shell, with events sourced from their collection.
  */
 export async function fetchSiteContent(): Promise<SiteContent> {
-  let content: SiteContent = defaultSiteContent;
+  let content: SiteContent = emptySiteContent;
 
   const blob = await fetchSiteContentBlob();
   if (blob) content = deepMerge(content, blob as Partial<SiteContent>);
@@ -239,7 +235,7 @@ export async function listEvents(
   opts: { publishedOnly?: boolean } = {},
 ): Promise<EventItem[]> {
   if (!isAppwriteConfigured) {
-    return opts.publishedOnly ? defaultSiteContent.events : [];
+    return [];
   }
   try {
     const limit = 100;
@@ -266,17 +262,13 @@ export async function listEvents(
 
     return documents.map(mapEvent);
   } catch {
-    return opts.publishedOnly ? defaultSiteContent.events : [];
+    return [];
   }
 }
 
 export async function getEventBySlug(slug: string): Promise<EventItem | null> {
   if (!isAppwriteConfigured) {
-    return (
-      defaultSiteContent.events.find(
-        (e) => (e.slug ?? slugify(e.title)) === slug,
-      ) ?? null
-    );
+    return null;
   }
   try {
     const res = await databases.listDocuments<AnyDoc>({
@@ -544,7 +536,7 @@ export async function listEventRegistrations(
  */
 export async function fetchGallery(): Promise<GalleryImage[]> {
   const blob = await fetchSiteContentBlob();
-  return blob?.galleryPreview ?? defaultSiteContent.galleryPreview;
+  return blob?.galleryPreview ?? [];
 }
 
 export async function saveGallery(gallery: GalleryImage[]): Promise<void> {

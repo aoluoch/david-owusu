@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Loader2 } from "lucide-react";
 import type { IconName, SiteContent } from "../types/content";
-import { defaultSiteContent } from "../data/siteContent";
+import { emptySiteContent } from "../data/siteContent";
 import {
   fetchSiteContentBlob,
   saveSiteContentBlob,
@@ -21,7 +21,7 @@ import { MediaInput } from "./components/MediaInput";
 import { ItemListEditor, StringListEditor } from "./components/ListEditor";
 
 function baseBlob(): SiteContentBlob {
-  const blob: Partial<SiteContent> = structuredClone(defaultSiteContent);
+  const blob: Partial<SiteContent> = structuredClone(emptySiteContent);
   delete (blob as { events?: unknown }).events;
   return blob as SiteContentBlob;
 }

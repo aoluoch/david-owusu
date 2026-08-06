@@ -306,8 +306,6 @@ async function main() {
       permissions: documentPermissions,
     }),
   );
-  await seedEvents();
-  await seedBlog();
 
   const email = process.env.ADMIN_EMAIL;
   const password = process.env.ADMIN_PASSWORD;
@@ -328,97 +326,6 @@ async function main() {
   }
 
   console.log("\n✅ Appwrite setup complete.\n");
-}
-
-async function seedEvents() {
-  const existing = await databases.listDocuments({
-    databaseId: DB,
-    collectionId: EVENTS,
-  });
-  if (existing.total > 0) {
-    console.log("  • events (already seeded)");
-    return;
-  }
-  const events = [
-    {
-      slug: "global-leadership-summit-2026",
-      title: "Global Leadership Summit 2026",
-      date: "August 15–17, 2026",
-      location: "Johannesburg, South Africa",
-      imageUrl:
-        "https://images.pexels.com/photos/22669860/pexels-photo-22669860.jpeg?auto=compress&cs=tinysrgb&w=800",
-      imageAlt: "Large auditorium with dynamic stage lighting during a conference",
-      ctaLabel: "Register Now",
-      ctaTo: "#",
-      registrationEnabled: true,
-      description:
-        "Three days of world-class teaching, mentorship, and connection for leaders who want to shape nations.",
-      body: "<p>Three days of world-class teaching, mentorship, and connection for leaders who want to shape nations.</p>",
-      featured: true,
-      published: true,
-      order: 0,
-    },
-    {
-      slug: "kingdom-business-forum",
-      title: "Kingdom Business Forum",
-      date: "October 3–5, 2026",
-      location: "Accra, Ghana",
-      imageUrl:
-        "https://images.pexels.com/photos/20733081/pexels-photo-20733081.jpeg?auto=compress&cs=tinysrgb&w=800",
-      imageAlt: "Large audience attending a speaker at a conference",
-      ctaLabel: "Register Now",
-      ctaTo: "#",
-      registrationEnabled: true,
-      description:
-        "A gathering of marketplace leaders exploring Kingdom principles for building enduring enterprises.",
-      body: "<p>A gathering of marketplace leaders exploring Kingdom principles for building enduring enterprises.</p>",
-      featured: false,
-      published: true,
-      order: 1,
-    },
-  ];
-  for (const e of events) {
-    await databases.createDocument({
-      databaseId: DB,
-      collectionId: EVENTS,
-      documentId: ID.unique(),
-      data: e,
-      permissions: documentPermissions,
-    });
-  }
-  console.log(`  ✓ seeded ${events.length} events`);
-}
-
-async function seedBlog() {
-  const existing = await databases.listDocuments({
-    databaseId: DB,
-    collectionId: BLOG,
-  });
-  if (existing.total > 0) {
-    console.log("  • blog (already seeded)");
-    return;
-  }
-  await databases.createDocument({
-    databaseId: DB,
-    collectionId: BLOG,
-    documentId: ID.unique(),
-    data: {
-      slug: "why-character-outlasts-competence",
-      title: "Why Character Outlasts Competence",
-      excerpt:
-        "Skills open doors, but character keeps you in the room. A short reflection on the foundation of enduring leadership.",
-      body: "<p>Skills open doors, but character keeps you in the room.</p><h2>The foundation</h2><p>Great cultures value the person as much as the outcome. When we invest in who leaders are — not just what they do — we build organizations designed to last.</p>",
-      coverImageUrl:
-        "https://images.pexels.com/photos/8761349/pexels-photo-8761349.jpeg?auto=compress&cs=tinysrgb&w=800",
-      coverImageAlt: "Diverse group of adults engaged in a business seminar",
-      author: "David Owusu",
-      tags: ["Leadership", "Character"],
-      published: true,
-      publishedAt: new Date().toISOString(),
-    },
-    permissions: documentPermissions,
-  });
-  console.log("  ✓ seeded 1 blog post");
 }
 
 main().catch((err) => {
