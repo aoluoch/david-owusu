@@ -51,9 +51,12 @@ export function UpcomingEvents({
             return (
               <Reveal key={event.id ?? event.title} delay={i * 120}>
                 <article className="card-lift group rounded-2xl overflow-hidden shadow-lg bg-white h-full flex flex-col">
-                  <Link to={detailTo} className="relative overflow-hidden block">
+                  <Link
+                    to={detailTo}
+                    className="relative flex h-64 items-center justify-center overflow-hidden bg-light"
+                  >
                     <img
-                      className="w-full h-56 object-cover group-hover:scale-105 transition duration-500"
+                      className="h-full w-full object-contain p-3 transition duration-500 group-hover:scale-105"
                       loading="lazy"
                       src={event.imageUrl}
                       alt={event.imageAlt}

@@ -32,12 +32,12 @@ export function FeaturedEvent({
         <SectionHeading eyebrow="Featured Event" heading="Save the Date" />
         <Reveal>
           <div className="grid md:grid-cols-2 gap-10 items-center bg-navy rounded-3xl overflow-hidden">
-            <div className="aspect-[4/3] md:aspect-auto md:h-full overflow-hidden">
+            <div className="flex aspect-[4/3] items-center justify-center overflow-hidden bg-white/5 md:aspect-auto md:h-full">
               <img
                 src={featured.imageUrl}
                 alt={featured.imageAlt}
                 loading="lazy"
-                className="w-full h-full object-cover"
+                className="h-full w-full object-contain p-4"
               />
             </div>
             <div className="p-10 lg:p-14 text-white">

@@ -334,9 +334,9 @@ export const defaultSiteContent: SiteContent = {
     },
     terms: {
       title: "Terms & Conditions",
-      updatedAt: "August 6, 2026",
+      updatedAt: "August 7, 2026",
       introduction:
-        "These terms govern use of the David Owusu website, including content, forms, event information, and resources made available through the site.",
+        "These terms govern use of the David Owusu website, including content, forms, event registration, event information, and resources made available through the site.",
       sections: [
         {
           title: "Use of Website",
@@ -355,7 +355,10 @@ export const defaultSiteContent: SiteContent = {
         {
           title: "Events, Invitations, and Partnerships",
           body: [
-            "Submitting an invitation, registration interest, or partnership inquiry does not guarantee acceptance, booking, availability, or participation.",
+            "Submitting an event registration, invitation, registration interest, or partnership inquiry does not guarantee acceptance, booking, availability, seating, admission, or participation.",
+            "You are responsible for providing accurate registration details, including your name, email address, phone number, and any event-related information requested through the website.",
+            "By registering for an event, you consent to being contacted about that event, including confirmations, updates, schedule changes, venue information, cancellations, and related follow-up communication.",
+            "Event dates, locations, speakers, formats, and availability may change. We may close, cancel, decline, or limit registrations at our discretion where necessary for capacity, safety, administrative, or ministry reasons.",
             "Any confirmed engagement may be subject to separate written agreements, schedules, fees, logistics, or ministry requirements.",
           ],
         },

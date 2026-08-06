@@ -76,11 +76,13 @@ export function EventDetailPage() {
           <div className="grid lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2">
               {event.imageUrl && (
-                <img
-                  src={event.imageUrl}
-                  alt={event.imageAlt}
-                  className="w-full rounded-2xl shadow-lg mb-10 object-cover max-h-[460px]"
-                />
+                <div className="mb-10 flex max-h-[520px] min-h-72 items-center justify-center overflow-hidden rounded-2xl bg-light shadow-lg">
+                  <img
+                    src={event.imageUrl}
+                    alt={event.imageAlt}
+                    className="max-h-[520px] w-full object-contain p-3"
+                  />
+                </div>
               )}
               {event.body ? (
                 <RichText html={event.body} />

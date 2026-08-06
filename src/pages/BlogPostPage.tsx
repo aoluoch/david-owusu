@@ -95,11 +95,13 @@ export function BlogPostPage() {
         <Container>
           <div className="mx-auto max-w-3xl">
             {post.coverImageUrl && (
-              <img
-                src={post.coverImageUrl}
-                alt={post.coverImageAlt}
-                className="mb-10 max-h-[460px] w-full rounded-2xl object-cover shadow-lg"
-              />
+              <div className="mb-10 flex max-h-[520px] min-h-72 items-center justify-center overflow-hidden rounded-2xl bg-light shadow-lg">
+                <img
+                  src={post.coverImageUrl}
+                  alt={post.coverImageAlt}
+                  className="max-h-[520px] w-full object-contain p-3"
+                />
+              </div>
             )}
             <RichText html={post.body} className="text-lg" />
 

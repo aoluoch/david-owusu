@@ -67,12 +67,12 @@ export function BlogPage() {
                     to={`/blog/${post.slug}`}
                     className="card-lift group flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-lg"
                   >
-                    <div className="overflow-hidden">
+                    <div className="flex h-56 items-center justify-center overflow-hidden bg-light">
                       <img
                         src={post.coverImageUrl}
                         alt={post.coverImageAlt}
                         loading="lazy"
-                        className="h-52 w-full object-cover transition duration-500 group-hover:scale-105"
+                        className="h-full w-full object-contain p-3 transition duration-500 group-hover:scale-105"
                       />
                     </div>
                     <div className="flex flex-1 flex-col p-6">
