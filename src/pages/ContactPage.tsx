@@ -1,8 +1,4 @@
-import {
-  ContactFAQ,
-  ContactMap,
-  ContactPanel,
-} from "../components/sections/contact";
+import { ContactFAQ, ContactPanel } from "../components/sections/contact";
 import { PageHero } from "../components/sections/shared";
 
 export function ContactPage() {
@@ -15,7 +11,6 @@ export function ContactPage() {
       />
       <ContactPanel />
       <ContactFAQ />
-      <ContactMap />
     </>
   );
 }

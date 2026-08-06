@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Loader2 } from "lucide-react";
-import type { EventItem } from "../types/content";
-import { createEvent, getEvent, slugify, updateEvent } from "../lib/api";
+import { ArrowLeft, Loader2, Users } from "lucide-react";
+import type { EventItem, Submission } from "../types/content";
+import {
+  createEvent,
+  getEvent,
+  listEventRegistrations,
+  slugify,
+  updateEvent,
+} from "../lib/api";
 import { useContentMeta } from "../lib/ContentContext";
 import { RichTextEditor } from "../components/admin/RichTextEditor";
 import { AdminButton, Card, Field, Input, Textarea, Toggle } from "./components/ui";
@@ -17,6 +23,7 @@ const empty: EventItem = {
   imageAlt: "",
   ctaLabel: "Register Now",
   ctaTo: "",
+  registrationEnabled: true,
   featured: false,
   description: "",
   body: "",
@@ -35,11 +42,15 @@ export function AdminEventEdit() {
   const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [registrations, setRegistrations] = useState<Submission[]>([]);
 
   useEffect(() => {
     if (isNew) return;
-    getEvent(id!)
-      .then((e) => e && setForm(e))
+    Promise.all([getEvent(id!), listEventRegistrations(id!)])
+      .then(([event, eventRegistrations]) => {
+        if (event) setForm(event);
+        setRegistrations(eventRegistrations);
+      })
       .finally(() => setLoading(false));
   }, [id, isNew]);
 
@@ -191,28 +202,62 @@ export function AdminEventEdit() {
             </div>
           </Card>
 
-          <Card title="Call To Action">
+          <Card title="Registration">
             <div className="space-y-4">
+              <Toggle
+                checked={form.registrationEnabled ?? true}
+                onChange={(v) => set("registrationEnabled", v)}
+                label="Registration button enabled"
+              />
               <Field label="Button label">
                 <Input
                   value={form.ctaLabel}
                   onChange={(e) => set("ctaLabel", e.target.value)}
                 />
               </Field>
-              <Field
-                label="Button link"
-                hint="External URL (https://…) or internal path (/contact)"
-              >
-                <Input
-                  value={form.ctaTo}
-                  onChange={(e) => set("ctaTo", e.target.value)}
-                  placeholder="https://…"
-                />
-              </Field>
             </div>
           </Card>
         </div>
       </div>
+
+      {!isNew && (
+        <Card title="Event Registrations">
+          {registrations.length === 0 ? (
+            <div className="flex items-center gap-3 rounded-xl bg-light p-4 text-sm text-slate-500">
+              <Users size={18} />
+              No registrations yet for this event.
+            </div>
+          ) : (
+            <div className="overflow-x-auto rounded-xl border border-gray-100">
+              <div className="min-w-[720px]">
+                <div className="grid grid-cols-[1.2fr_1.4fr_1fr_1fr] gap-4 bg-light px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                  <span>Name</span>
+                  <span>Email</span>
+                  <span>Phone</span>
+                  <span>Registered</span>
+                </div>
+                <div className="divide-y divide-gray-100">
+                  {registrations.map((registration) => (
+                    <div
+                      key={registration.id}
+                      className="grid grid-cols-[1.2fr_1.4fr_1fr_1fr] gap-4 px-4 py-3 text-sm text-slate-600"
+                    >
+                      <span className="font-semibold text-navy">
+                        {registration.name}
+                      </span>
+                      <span>{registration.email}</span>
+                      <span>{registration.phone}</span>
+                      <span>
+                        {new Date(registration.createdAt).toLocaleDateString()}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </Card>
+      )}
     </form>
   );
 }

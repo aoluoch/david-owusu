@@ -6,7 +6,7 @@ import {
   LeadershipPrograms,
   LeadershipSpeakingTopics,
 } from "../components/sections/leadership";
-import { PageHero, Testimonials } from "../components/sections/shared";
+import { PageHero } from "../components/sections/shared";
 
 export function LeadershipPage() {
   const { pageHeaders } = useContent();
@@ -23,7 +23,6 @@ export function LeadershipPage() {
       <LeadershipPrograms />
       <LeadershipBooks />
       <LeadershipSpeakingTopics />
-      <Testimonials />
     </>
   );
 }

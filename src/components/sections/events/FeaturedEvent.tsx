@@ -1,10 +1,11 @@
 import { Calendar, MapPin } from "lucide-react";
 import { useContent } from "../../../lib/ContentContext";
 import { slugify } from "../../../lib/utils";
-import { ButtonLink, SmartButtonLink } from "../../ui/Button";
+import { ButtonLink } from "../../ui/Button";
 import { Container } from "../../ui/Container";
 import { Reveal } from "../../ui/Reveal";
 import { SectionHeading } from "../../ui/SectionHeading";
+import { EventRegistrationButton } from "./EventRegistrationButton";
 
 export function FeaturedEvent() {
   const { events } = useContent();
@@ -52,11 +53,7 @@ export function FeaturedEvent() {
                 <ButtonLink to={detailTo} variant="gold">
                   View Details
                 </ButtonLink>
-                {featured.ctaTo && (
-                  <SmartButtonLink to={featured.ctaTo} variant="outline">
-                    {featured.ctaLabel}
-                  </SmartButtonLink>
-                )}
+                <EventRegistrationButton event={featured} variant="outline" />
               </div>
             </div>
           </div>

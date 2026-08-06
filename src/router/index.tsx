@@ -12,6 +12,7 @@ import { GalleryPage } from "../pages/GalleryPage";
 import { ContactPage } from "../pages/ContactPage";
 import { InvitePage } from "../pages/InvitePage";
 import { PartnerPage } from "../pages/PartnerPage";
+import { LegalPage } from "../pages/LegalPage";
 import { NotFoundPage } from "../pages/NotFoundPage";
 import { AdminLayout } from "../admin/AdminLayout";
 import { AdminLogin } from "../admin/AdminLogin";
@@ -42,6 +43,11 @@ export const router = createBrowserRouter([
       { path: "contact", element: <ContactPage /> },
       { path: "invite", element: <InvitePage /> },
       { path: "partner", element: <PartnerPage /> },
+      { path: "privacy-policy", element: <LegalPage page="privacy" /> },
+      {
+        path: "terms-and-conditions",
+        element: <LegalPage page="terms" />,
+      },
       { path: "*", element: <NotFoundPage /> },
     ],
   },

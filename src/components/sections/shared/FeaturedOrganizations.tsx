@@ -20,12 +20,12 @@ export function FeaturedOrganizations() {
           {organizations.map((org, i) => (
             <Reveal key={org.name} delay={(i % 3) * 100}>
               <div className="card-lift group h-full rounded-2xl bg-light border border-gray-100 overflow-hidden flex flex-col">
-                <div className="aspect-video overflow-hidden bg-navy">
+                <div className="aspect-video overflow-hidden bg-white p-4">
                   <img
                     src={org.logoUrl}
                     alt={org.name}
                     loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                    className="h-full w-full object-contain transition duration-500 group-hover:scale-105"
                   />
                 </div>
                 <div className="p-6 flex flex-col flex-1">
@@ -38,6 +38,8 @@ export function FeaturedOrganizations() {
                   {org.websiteUrl && (
                     <a
                       href={org.websiteUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="mt-5 inline-flex items-center gap-1 text-royal font-semibold text-sm hover:text-gold transition"
                     >
                       Visit Website

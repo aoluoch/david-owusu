@@ -4,8 +4,8 @@ import { ArrowLeft, Calendar, MapPin } from "lucide-react";
 import type { EventItem } from "../types/content";
 import { getEventBySlug } from "../lib/api";
 import { Container } from "../components/ui/Container";
-import { SmartButtonLink } from "../components/ui/Button";
 import { RichText } from "../components/ui/RichText";
+import { EventRegistrationButton } from "../components/sections/events";
 
 export function EventDetailPage() {
   const { slug = "" } = useParams();
@@ -108,18 +108,14 @@ export function EventDetailPage() {
                     <dd className="font-semibold text-navy">{event.location}</dd>
                   </div>
                 </dl>
-                {event.ctaTo && (
-                  <div className="mt-6">
-                    <SmartButtonLink
-                      to={event.ctaTo}
-                      variant="primary"
-                      size="md"
-                      className="w-full"
-                    >
-                      {event.ctaLabel}
-                    </SmartButtonLink>
-                  </div>
-                )}
+                <div className="mt-6">
+                  <EventRegistrationButton
+                    event={event}
+                    variant="primary"
+                    size="md"
+                    className="w-full"
+                  />
+                </div>
               </div>
             </aside>
           </div>

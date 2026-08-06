@@ -96,6 +96,7 @@ export interface EventItem {
   imageAlt: string;
   ctaLabel: string;
   ctaTo: string;
+  registrationEnabled?: boolean;
   featured?: boolean;
   /** Short plain-text summary shown on cards. */
   description?: string;
@@ -128,6 +129,7 @@ export type SubmissionType =
   | "Business Inquiry"
   | "Prayer Request"
   | "Media Request"
+  | "Event Registration"
   | "General";
 
 /** A message submitted by a site visitor, received by the admin. */
@@ -171,8 +173,16 @@ export interface FooterContent {
   brand: string;
   tagline: string;
   columns: { title: string; links: NavLink[] }[];
+  socialLinks: { label: string; to: string }[];
   contact: { email: string; phone: string; address: string };
   copyright: string;
+}
+
+export interface LegalPageContent {
+  title: string;
+  updatedAt: string;
+  introduction: string;
+  sections: { title: string; body: string[] }[];
 }
 
 export interface TimelineItem {
@@ -221,6 +231,10 @@ export interface SiteContent {
   galleryPreview: GalleryImage[];
   finalCta: CTASection;
   footer: FooterContent;
+  legal: {
+    privacy: LegalPageContent;
+    terms: LegalPageContent;
+  };
 
   about: {
     heroImage: string;

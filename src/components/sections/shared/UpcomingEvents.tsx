@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import type { EventItem } from "../../../types/content";
 import { useContent } from "../../../lib/ContentContext";
 import { slugify } from "../../../lib/utils";
-import { ButtonLink, SmartButtonLink } from "../../ui/Button";
+import { EventRegistrationButton } from "../events/EventRegistrationButton";
+import { ButtonLink } from "../../ui/Button";
 import { Container } from "../../ui/Container";
 import { Reveal } from "../../ui/Reveal";
 import { SectionHeading } from "../../ui/SectionHeading";
@@ -81,15 +82,11 @@ export function UpcomingEvents({
                       <ButtonLink to={detailTo} variant="primary" size="md">
                         View Details
                       </ButtonLink>
-                      {event.ctaTo && (
-                        <SmartButtonLink
-                          to={event.ctaTo}
-                          variant="outlineDark"
-                          size="md"
-                        >
-                          {event.ctaLabel}
-                        </SmartButtonLink>
-                      )}
+                      <EventRegistrationButton
+                        event={event}
+                        variant="outlineDark"
+                        size="md"
+                      />
                     </div>
                   </div>
                 </article>

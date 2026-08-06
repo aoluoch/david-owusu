@@ -171,6 +171,7 @@ export const defaultSiteContent: SiteContent = {
         "Large auditorium with dynamic stage lighting during a conference",
       ctaLabel: "Register Now",
       ctaTo: "#",
+      registrationEnabled: true,
       featured: true,
       description:
         "Three days of world-class teaching, mentorship, and connection for leaders who want to shape nations.",
@@ -184,6 +185,7 @@ export const defaultSiteContent: SiteContent = {
       imageAlt: "Large audience attending a speaker at a conference",
       ctaLabel: "Register Now",
       ctaTo: "#",
+      registrationEnabled: true,
       description:
         "A gathering of marketplace leaders exploring Kingdom principles for building enduring enterprises.",
     },
@@ -277,6 +279,20 @@ export const defaultSiteContent: SiteContent = {
           { label: "Speaking Topics", to: "/leadership#speaking" },
         ],
       },
+      {
+        title: "Legal",
+        links: [
+          { label: "Privacy Policy", to: "/privacy-policy" },
+          { label: "Terms & Conditions", to: "/terms-and-conditions" },
+        ],
+      },
+    ],
+    socialLinks: [
+      { label: "LinkedIn", to: "#" },
+      { label: "X (Twitter)", to: "#" },
+      { label: "Instagram", to: "#" },
+      { label: "Facebook", to: "#" },
+      { label: "YouTube", to: "#" },
     ],
     contact: {
       email: "info@davidowusu.com",
@@ -284,6 +300,73 @@ export const defaultSiteContent: SiteContent = {
       address: "Johannesburg, South Africa",
     },
     copyright: "© 2026 David Owusu. All rights reserved.",
+  },
+
+  legal: {
+    privacy: {
+      title: "Privacy Policy",
+      updatedAt: "August 6, 2026",
+      introduction:
+        "David Owusu Ministries and its related initiatives respect your privacy. This policy explains how we collect, use, and protect information shared through this website.",
+      sections: [
+        {
+          title: "Information We Collect",
+          body: [
+            "We collect information you provide through contact, invitation, partnership, event, and inquiry forms. This may include your name, email address, phone number, organization, inquiry type, and message details.",
+            "We may also receive basic technical information such as browser, device, and usage data when you visit the website.",
+          ],
+        },
+        {
+          title: "How We Use Information",
+          body: [
+            "We use submitted information to respond to inquiries, coordinate speaking invitations, manage partnerships, share event updates, and improve our communications and services.",
+            "We do not sell personal information. We only share it with trusted team members or service providers when needed to respond to your request or operate the website.",
+          ],
+        },
+        {
+          title: "Data Care",
+          body: [
+            "We take reasonable administrative and technical steps to protect submitted information from unauthorized access, misuse, or disclosure.",
+            "You may request that we update or delete personal information you have submitted by contacting the office through the contact page.",
+          ],
+        },
+      ],
+    },
+    terms: {
+      title: "Terms & Conditions",
+      updatedAt: "August 6, 2026",
+      introduction:
+        "These terms govern use of the David Owusu website, including content, forms, event information, and resources made available through the site.",
+      sections: [
+        {
+          title: "Use of Website",
+          body: [
+            "You agree to use this website for lawful purposes and in a way that does not interfere with its operation, security, or availability.",
+            "Information submitted through forms should be accurate and should not include unlawful, harmful, or misleading content.",
+          ],
+        },
+        {
+          title: "Content and Resources",
+          body: [
+            "Website text, images, videos, teaching resources, event materials, and brand assets are provided for informational and ministry-related purposes.",
+            "You may not reproduce, distribute, or commercially use website content without prior written permission, except where sharing tools or explicit permissions are provided.",
+          ],
+        },
+        {
+          title: "Events, Invitations, and Partnerships",
+          body: [
+            "Submitting an invitation, registration interest, or partnership inquiry does not guarantee acceptance, booking, availability, or participation.",
+            "Any confirmed engagement may be subject to separate written agreements, schedules, fees, logistics, or ministry requirements.",
+          ],
+        },
+        {
+          title: "Changes",
+          body: [
+            "We may update these terms as the ministry, website, or services develop. Continued use of the website after updates means you accept the revised terms.",
+          ],
+        },
+      ],
+    },
   },
 
   about: {
@@ -490,14 +573,20 @@ export const defaultSiteContent: SiteContent = {
       },
     ],
     industries: [
-      "Financial Services",
-      "Faith-Based Organizations",
-      "Education",
-      "Healthcare",
-      "Energy & Infrastructure",
-      "Technology",
-      "Non-Profit & Philanthropy",
-      "Public Sector",
+      "Executive Education & Professional Training",
+      "Leadership Development & Strategic Advisory",
+      "Organizational Consulting",
+      "Non-Profit & Community Development",
+      "Education & Healthcare Initiatives",
+      "Water & Essential Resource Solutions",
+      "Environmental Sustainability & Circular Economy",
+      "Renewable Energy & Biodiesel Supply Chains",
+      "Corporate & Leisure Travel Management",
+      "Procurement & General Supplies",
+      "ICT, Office & Industrial Equipment",
+      "Laboratory Supplies & Reagents",
+      "Construction Materials & Electrical Products",
+      "Hospitality & Real Estate",
     ],
     caseStudies: [
       {

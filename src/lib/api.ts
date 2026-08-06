@@ -76,10 +76,9 @@ function deepMerge<T>(base: T, override: Partial<T> | undefined | null): T {
   return result as T;
 }
 
-/** Permissions that make a document world-readable but writable by any user. */
-const publicReadWrite = [
+/** Document permissions: create is granted at collection level, not per document. */
+const publicDocumentPermissions = [
   Permission.read(Role.any()),
-  Permission.create(Role.users()),
   Permission.update(Role.users()),
   Permission.delete(Role.users()),
 ];
@@ -101,6 +100,10 @@ function mapEvent(doc: AnyDoc): EventItem {
     imageAlt: (doc.imageAlt as string) ?? (doc.title as string) ?? "",
     ctaLabel: (doc.ctaLabel as string) || "Register Now",
     ctaTo: (doc.ctaTo as string) || "",
+    registrationEnabled:
+      doc.registrationEnabled === undefined
+        ? true
+        : Boolean(doc.registrationEnabled),
     featured: Boolean(doc.featured),
     description: (doc.description as string) || undefined,
     body: (doc.body as string) || undefined,
@@ -119,6 +122,7 @@ function eventToData(event: Partial<EventItem>): Record<string, unknown> {
     imageAlt: event.imageAlt,
     ctaLabel: event.ctaLabel,
     ctaTo: event.ctaTo,
+    registrationEnabled: event.registrationEnabled ?? true,
     featured: event.featured ?? false,
     description: event.description ?? "",
     body: event.body ?? "",
@@ -222,7 +226,7 @@ export async function saveSiteContentBlob(
       collectionId: siteContentCollectionId,
       documentId: siteContentDocId,
       data: { data },
-      permissions: publicReadWrite,
+      permissions: publicDocumentPermissions,
     });
   }
 }
@@ -287,7 +291,7 @@ export async function createEvent(event: Partial<EventItem>): Promise<EventItem>
     collectionId: eventsCollectionId,
     documentId: ID.unique(),
     data: eventToData(event),
-    permissions: publicReadWrite,
+    permissions: publicDocumentPermissions,
   });
   return mapEvent(doc);
 }
@@ -365,7 +369,7 @@ export async function createPost(post: Partial<BlogPost>): Promise<BlogPost> {
     collectionId: blogCollectionId,
     documentId: ID.unique(),
     data: postToData(post),
-    permissions: publicReadWrite,
+    permissions: publicDocumentPermissions,
   });
   return mapPost(doc);
 }
@@ -465,6 +469,52 @@ export async function deleteSubmission(id: string): Promise<void> {
     collectionId: submissionsCollectionId,
     documentId: id,
   });
+}
+
+/* -------------------------------------------------------------------------- */
+/* Event registrations                                                         */
+/* -------------------------------------------------------------------------- */
+
+export async function createEventRegistration({
+  eventId,
+  eventTitle,
+  name,
+  email,
+  phone,
+}: {
+  eventId: string;
+  eventTitle: string;
+  name: string;
+  email: string;
+  phone: string;
+}): Promise<void> {
+  if (!isAppwriteConfigured) {
+    throw new Error("Registration is not configured yet. Please try again later.");
+  }
+  await databases.createDocument({
+    databaseId,
+    collectionId: submissionsCollectionId,
+    documentId: ID.unique(),
+    data: {
+      type: "Event Registration",
+      name,
+      email,
+      phone,
+      organization: eventTitle,
+      subject: eventId,
+      message: `Registration for ${eventTitle}`,
+      read: false,
+    },
+  });
+}
+
+export async function listEventRegistrations(
+  eventId: string,
+): Promise<Submission[]> {
+  const submissions = await listSubmissions();
+  return submissions.filter(
+    (item) => item.type === "Event Registration" && item.subject === eventId,
+  );
 }
 
 /* -------------------------------------------------------------------------- */

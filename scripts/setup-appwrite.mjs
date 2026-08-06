@@ -71,9 +71,33 @@ async function ensure(label, fn) {
   }
 }
 
+async function ensureOptional(label, fn) {
+  try {
+    await fn();
+    console.log(`  ✓ ${label}`);
+  } catch (err) {
+    if (err?.code === 409) {
+      console.log(`  • ${label} (already exists)`);
+      return;
+    }
+    const message = String(err?.message || "");
+    if (message.includes("maximum number") || message.includes("maximum size")) {
+      console.log(`  • ${label} (skipped: collection attribute limit reached)`);
+      return;
+    }
+    throw err;
+  }
+}
+
 const collectionPermissions = [
   Permission.read(Role.any()),
   Permission.create(Role.users()),
+  Permission.update(Role.users()),
+  Permission.delete(Role.users()),
+];
+
+const documentPermissions = [
+  Permission.read(Role.any()),
   Permission.update(Role.users()),
   Permission.delete(Role.users()),
 ];
@@ -199,6 +223,7 @@ async function main() {
   await str(EVENTS, "imageAlt", 500);
   await str(EVENTS, "ctaLabel", 255);
   await str(EVENTS, "ctaTo", 2000);
+  await bool(EVENTS, "registrationEnabled", true);
   await str(EVENTS, "description", 5000);
   await str(EVENTS, "body", 1000000);
   await bool(EVENTS, "featured", false);
@@ -224,8 +249,25 @@ async function main() {
   await str(SUBMISSIONS, "phone", 50);
   await str(SUBMISSIONS, "organization", 255);
   await str(SUBMISSIONS, "subject", 500);
-  await str(SUBMISSIONS, "message", 10000, true);
-  await bool(SUBMISSIONS, "read", false);
+  await ensureOptional(`attr ${SUBMISSIONS}.message`, () =>
+    databases.createStringAttribute({
+      databaseId: DB,
+      collectionId: SUBMISSIONS,
+      key: "message",
+      size: 10000,
+      required: true,
+      array: false,
+    }),
+  );
+  await ensureOptional(`attr ${SUBMISSIONS}.read`, () =>
+    databases.createBooleanAttribute({
+      databaseId: DB,
+      collectionId: SUBMISSIONS,
+      key: "read",
+      required: false,
+      xdefault: false,
+    }),
+  );
 
   // Attributes are processed asynchronously — wait before indexing.
   console.log("\nWaiting for attributes to be available…");
@@ -261,7 +303,7 @@ async function main() {
       collectionId: SITE,
       documentId: SITE_DOC,
       data: { data: "{}" },
-      permissions: collectionPermissions,
+      permissions: documentPermissions,
     }),
   );
   await seedEvents();
@@ -308,6 +350,7 @@ async function seedEvents() {
       imageAlt: "Large auditorium with dynamic stage lighting during a conference",
       ctaLabel: "Register Now",
       ctaTo: "#",
+      registrationEnabled: true,
       description:
         "Three days of world-class teaching, mentorship, and connection for leaders who want to shape nations.",
       body: "<p>Three days of world-class teaching, mentorship, and connection for leaders who want to shape nations.</p>",
@@ -325,6 +368,7 @@ async function seedEvents() {
       imageAlt: "Large audience attending a speaker at a conference",
       ctaLabel: "Register Now",
       ctaTo: "#",
+      registrationEnabled: true,
       description:
         "A gathering of marketplace leaders exploring Kingdom principles for building enduring enterprises.",
       body: "<p>A gathering of marketplace leaders exploring Kingdom principles for building enduring enterprises.</p>",
@@ -339,7 +383,7 @@ async function seedEvents() {
       collectionId: EVENTS,
       documentId: ID.unique(),
       data: e,
-      permissions: collectionPermissions,
+      permissions: documentPermissions,
     });
   }
   console.log(`  ✓ seeded ${events.length} events`);
@@ -372,7 +416,7 @@ async function seedBlog() {
       published: true,
       publishedAt: new Date().toISOString(),
     },
-    permissions: collectionPermissions,
+    permissions: documentPermissions,
   });
   console.log("  ✓ seeded 1 blog post");
 }

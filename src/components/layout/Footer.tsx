@@ -1,6 +1,7 @@
-import type { SVGProps } from "react";
+import type { ReactNode, SVGProps } from "react";
 import { Link } from "react-router-dom";
 import { useContent } from "../../lib/ContentContext";
+import { isExternalUrl } from "../../lib/utils";
 import { Container } from "../ui/Container";
 
 type IconComponent = (props: SVGProps<SVGSVGElement>) => React.JSX.Element;
@@ -35,13 +36,56 @@ const YouTube: IconComponent = (props) => (
   </svg>
 );
 
-const socialLinks: { icon: IconComponent; href: string; label: string }[] = [
-  { icon: LinkedIn, href: "#", label: "LinkedIn" },
-  { icon: X, href: "#", label: "X (Twitter)" },
-  { icon: Instagram, href: "#", label: "Instagram" },
-  { icon: Facebook, href: "#", label: "Facebook" },
-  { icon: YouTube, href: "#", label: "YouTube" },
-];
+const socialIcons: Record<string, IconComponent> = {
+  linkedin: LinkedIn,
+  "x (twitter)": X,
+  x: X,
+  twitter: X,
+  instagram: Instagram,
+  facebook: Facebook,
+  youtube: YouTube,
+};
+
+function FooterLink({
+  to,
+  children,
+  className,
+  newTab = false,
+}: {
+  to: string;
+  children: ReactNode;
+  className: string;
+  newTab?: boolean;
+}) {
+  if (newTab) {
+    return (
+      <a href={to} className={className} target="_blank" rel="noopener noreferrer">
+        {children}
+      </a>
+    );
+  }
+
+  if (isExternalUrl(to)) {
+    const shouldOpenNewTab = /^(https?:)?\/\//i.test(to);
+    return (
+      <a
+        href={to}
+        className={className}
+        {...(shouldOpenNewTab
+          ? { target: "_blank", rel: "noopener noreferrer" }
+          : {})}
+      >
+        {children}
+      </a>
+    );
+  }
+
+  return (
+    <Link to={to} className={className}>
+      {children}
+    </Link>
+  );
+}
 
 export function Footer() {
   const { footer } = useContent();
@@ -58,16 +102,22 @@ export function Footer() {
               {footer.tagline}
             </p>
             <div className="flex items-center gap-3">
-              {socialLinks.map(({ icon: SocialIcon, href, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  className="w-10 h-10 rounded-full border border-white/15 flex items-center justify-center text-blue-200 hover:text-navy hover:bg-gold hover:border-gold transition"
-                >
-                  <SocialIcon width={16} height={16} />
-                </a>
-              ))}
+              {footer.socialLinks.map(({ label, to }) => {
+                const SocialIcon =
+                  socialIcons[label.trim().toLowerCase()] ?? LinkedIn;
+                return (
+                  <a
+                    key={label}
+                    href={to}
+                    aria-label={label}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 rounded-full border border-white/15 flex items-center justify-center text-blue-200 hover:text-navy hover:bg-gold hover:border-gold transition"
+                  >
+                    <SocialIcon width={16} height={16} />
+                  </a>
+                );
+              })}
             </div>
           </div>
 
@@ -79,12 +129,13 @@ export function Footer() {
               <ul className="space-y-2.5">
                 {col.links.map((link) => (
                   <li key={link.label}>
-                    <Link
+                    <FooterLink
                       to={link.to}
+                      newTab={link.label.trim().toLowerCase() === "podcast"}
                       className="text-blue-200 text-sm hover:text-gold transition"
                     >
                       {link.label}
-                    </Link>
+                    </FooterLink>
                   </li>
                 ))}
               </ul>
@@ -106,12 +157,15 @@ export function Footer() {
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-blue-300 text-sm">{footer.copyright}</p>
           <div className="flex items-center gap-6 text-sm text-blue-300">
-            <a href="#" className="hover:text-gold transition">
+            <Link to="/privacy-policy" className="hover:text-gold transition">
               Privacy Policy
-            </a>
-            <a href="#" className="hover:text-gold transition">
+            </Link>
+            <Link
+              to="/terms-and-conditions"
+              className="hover:text-gold transition"
+            >
               Terms
-            </a>
+            </Link>
           </div>
         </div>
       </Container>

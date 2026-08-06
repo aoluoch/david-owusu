@@ -1,7 +1,6 @@
 import { useContent } from "../lib/ContentContext";
 import {
   CorporateBio,
-  CorporateCaseStudies,
   CorporateIndustries,
   CorporateServices,
 } from "../components/sections/corporate";
@@ -20,7 +19,7 @@ export function CorporatePage() {
       <CorporateBio />
       <CorporateServices />
       <CorporateIndustries />
-      <CorporateCaseStudies />
+      {/* Corporate case studies intentionally hidden. */}
       <FeaturedOrganizations />
     </>
   );

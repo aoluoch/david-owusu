@@ -71,10 +71,6 @@ export function AdminContent() {
     [content],
   );
 
-  useEffect(() => {
-    if (tab === "advanced") setJsonText(jsonPreview);
-  }, [tab, jsonPreview]);
-
   /** Immutably update a nested part of the content. */
   const patch = (producer: (draft: SiteContentBlob) => void) => {
     setContent((prev) => {
@@ -82,6 +78,11 @@ export function AdminContent() {
       producer(draft);
       return draft;
     });
+  };
+
+  const handleTabChange = (next: Tab) => {
+    if (next === "advanced") setJsonText(jsonPreview);
+    setTab(next);
   };
 
   const handleSave = async () => {
@@ -146,7 +147,7 @@ export function AdminContent() {
         {tabs.map((t) => (
           <button
             key={t.id}
-            onClick={() => setTab(t.id)}
+            onClick={() => handleTabChange(t.id)}
             className={cn(
               "-mb-px border-b-2 px-4 py-2.5 text-sm font-semibold transition",
               tab === t.id
@@ -409,6 +410,50 @@ export function AdminContent() {
               </div>
             </Card>
           </div>
+
+          <Card title="Organizations & Institutions">
+            <ItemListEditor
+              items={content.organizations}
+              onChange={(v) => patch((d) => (d.organizations = v))}
+              template={() => ({
+                name: "",
+                description: "",
+                logoUrl: "",
+                websiteUrl: "",
+              })}
+              itemLabel="Organization"
+              addLabel="Add organization"
+              renderItem={(item, update) => (
+                <>
+                  <Field label="Name">
+                    <Input
+                      value={item.name}
+                      onChange={(e) => update({ name: e.target.value })}
+                    />
+                  </Field>
+                  <Field label="Description">
+                    <Textarea
+                      value={item.description}
+                      onChange={(e) => update({ description: e.target.value })}
+                    />
+                  </Field>
+                  <Field label="Logo image">
+                    <MediaInput
+                      value={item.logoUrl}
+                      onChange={(url) => update({ logoUrl: url })}
+                    />
+                  </Field>
+                  <Field label="Website link">
+                    <Input
+                      value={item.websiteUrl ?? ""}
+                      onChange={(e) => update({ websiteUrl: e.target.value })}
+                      placeholder="https://..."
+                    />
+                  </Field>
+                </>
+              )}
+            />
+          </Card>
         </div>
       )}
 
@@ -476,39 +521,7 @@ export function AdminContent() {
             />
           </Card>
 
-          <Card title="Timeline">
-            <ItemListEditor
-              items={content.about.timeline}
-              onChange={(v) => patch((d) => (d.about.timeline = v))}
-              template={() => ({ year: "", title: "", description: "" })}
-              itemLabel="Milestone"
-              addLabel="Add milestone"
-              renderItem={(item, update) => (
-                <>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    <Field label="Year">
-                      <Input
-                        value={item.year}
-                        onChange={(e) => update({ year: e.target.value })}
-                      />
-                    </Field>
-                    <Field label="Title">
-                      <Input
-                        value={item.title}
-                        onChange={(e) => update({ title: e.target.value })}
-                      />
-                    </Field>
-                  </div>
-                  <Field label="Description">
-                    <Textarea
-                      value={item.description}
-                      onChange={(e) => update({ description: e.target.value })}
-                    />
-                  </Field>
-                </>
-              )}
-            />
-          </Card>
+          {/* Life journey / milestone timeline editor intentionally hidden. */}
 
           <Card title="Values">
             <ItemListEditor
@@ -826,6 +839,9 @@ export function AdminContent() {
           </Card>
 
           <Card title="Industries">
+            <p className="mb-4 text-sm text-slate-500">
+              These appear as the Industries Served chips on the Corporate page.
+            </p>
             <StringListEditor
               items={content.corporate.industries}
               onChange={(v) => patch((d) => (d.corporate.industries = v))}
@@ -834,50 +850,7 @@ export function AdminContent() {
             />
           </Card>
 
-          <Card title="Case Studies">
-            <ItemListEditor
-              items={content.corporate.caseStudies}
-              onChange={(v) => patch((d) => (d.corporate.caseStudies = v))}
-              template={() => ({
-                title: "",
-                client: "",
-                outcome: "",
-                imageUrl: "",
-              })}
-              itemLabel="Case study"
-              addLabel="Add case study"
-              renderItem={(item, update) => (
-                <>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    <Field label="Title">
-                      <Input
-                        value={item.title}
-                        onChange={(e) => update({ title: e.target.value })}
-                      />
-                    </Field>
-                    <Field label="Client">
-                      <Input
-                        value={item.client}
-                        onChange={(e) => update({ client: e.target.value })}
-                      />
-                    </Field>
-                  </div>
-                  <Field label="Outcome">
-                    <Textarea
-                      value={item.outcome}
-                      onChange={(e) => update({ outcome: e.target.value })}
-                    />
-                  </Field>
-                  <Field label="Image">
-                    <MediaInput
-                      value={item.imageUrl}
-                      onChange={(url) => update({ imageUrl: url })}
-                    />
-                  </Field>
-                </>
-              )}
-            />
-          </Card>
+          {/* Corporate case studies editor intentionally hidden. */}
         </div>
       )}
 
@@ -965,6 +938,83 @@ export function AdminContent() {
                 </Field>
               </div>
             </div>
+          </Card>
+
+          <Card title="Footer Link Columns" className="lg:col-span-2">
+            <ItemListEditor
+              items={content.footer.columns}
+              onChange={(v) => patch((d) => (d.footer.columns = v))}
+              template={() => ({ title: "", links: [] })}
+              itemLabel="Column"
+              addLabel="Add column"
+              renderItem={(column, update) => (
+                <>
+                  <Field label="Column title">
+                    <Input
+                      value={column.title}
+                      onChange={(e) => update({ title: e.target.value })}
+                    />
+                  </Field>
+                  <ItemListEditor
+                    items={column.links}
+                    onChange={(links) => update({ links })}
+                    template={() => ({ label: "", to: "" })}
+                    itemLabel="Link"
+                    addLabel="Add link"
+                    renderItem={(link, updateLink) => (
+                      <div className="grid gap-3 sm:grid-cols-2">
+                        <Field label="Label">
+                          <Input
+                            value={link.label}
+                            onChange={(e) =>
+                              updateLink({ label: e.target.value })
+                            }
+                          />
+                        </Field>
+                        <Field
+                          label="URL"
+                          hint="/about, #section, or https://..."
+                        >
+                          <Input
+                            value={link.to}
+                            onChange={(e) => updateLink({ to: e.target.value })}
+                          />
+                        </Field>
+                      </div>
+                    )}
+                  />
+                </>
+              )}
+            />
+          </Card>
+
+          <Card title="Social Media Links" className="lg:col-span-2">
+            <ItemListEditor
+              items={content.footer.socialLinks}
+              onChange={(v) => patch((d) => (d.footer.socialLinks = v))}
+              template={() => ({ label: "LinkedIn", to: "#" })}
+              itemLabel="Social link"
+              addLabel="Add social link"
+              renderItem={(item, update) => (
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <Field
+                    label="Platform"
+                    hint="LinkedIn, X, Instagram, Facebook, or YouTube"
+                  >
+                    <Input
+                      value={item.label}
+                      onChange={(e) => update({ label: e.target.value })}
+                    />
+                  </Field>
+                  <Field label="URL" hint="Opens in a new browser tab">
+                    <Input
+                      value={item.to}
+                      onChange={(e) => update({ to: e.target.value })}
+                    />
+                  </Field>
+                </div>
+              )}
+            />
           </Card>
         </div>
       )}

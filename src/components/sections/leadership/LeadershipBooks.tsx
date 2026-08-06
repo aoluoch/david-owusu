@@ -45,6 +45,8 @@ export function LeadershipBooks() {
                 {book.purchaseUrl && (
                   <a
                     href={book.purchaseUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-gold font-semibold text-sm hover:text-white transition"
                   >
                     <BookOpen size={16} /> Read More

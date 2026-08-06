@@ -136,13 +136,14 @@ export function InquiryForm({
 
       <div className="grid md:grid-cols-2 gap-4 mb-4">
         <input type="email" name="email" required placeholder="Email Address" className={inputClass} />
-        <input type="tel" name="phone" placeholder="Phone Number (optional)" className={inputClass} />
+        <input type="tel" name="phone" required placeholder="Phone Number" className={inputClass} />
       </div>
 
       <input
         type="text"
         name="organization"
-        placeholder="Organization (optional)"
+        required
+        placeholder="Organization"
         className={cn(inputClass, "mb-4")}
       />
 
@@ -150,6 +151,7 @@ export function InquiryForm({
         <input
           type="text"
           name="subject"
+          required
           placeholder={subjectLabel}
           className={cn(inputClass, "mb-4")}
         />

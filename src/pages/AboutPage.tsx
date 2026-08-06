@@ -3,7 +3,6 @@ import {
   AboutAwards,
   AboutBiography,
   AboutQuote,
-  AboutTimeline,
   AboutValues,
 } from "../components/sections/about";
 import { PageHero } from "../components/sections/shared";
@@ -20,7 +19,7 @@ export function AboutPage() {
         imageUrl={about.heroImage}
       />
       <AboutBiography />
-      <AboutTimeline />
+      {/* Life journey / milestone timeline intentionally hidden. */}
       <AboutValues />
       <AboutAwards />
       <AboutQuote />
