@@ -30,6 +30,8 @@ type Tab =
   | "general"
   | "hero"
   | "home"
+  | "institutions"
+  | "testimonials"
   | "about"
   | "leadership"
   | "corporate"
@@ -40,6 +42,8 @@ const tabs: { id: Tab; label: string }[] = [
   { id: "general", label: "General & Buttons" },
   { id: "hero", label: "Hero" },
   { id: "home", label: "Home Sections" },
+  { id: "institutions", label: "Institutions & Initiatives" },
+  { id: "testimonials", label: "Testimonials" },
   { id: "about", label: "About Page" },
   { id: "leadership", label: "Leadership Page" },
   { id: "corporate", label: "Corporate Page" },
@@ -411,66 +415,133 @@ export function AdminContent() {
               </div>
             </Card>
           </div>
-
-          <Card title="Organizations & Institutions">
-            <ItemListEditor
-              items={content.organizations}
-              onChange={(v) => patch((d) => (d.organizations = v))}
-              template={() => ({
-                name: "",
-                description: "",
-                logoUrl: "",
-                websiteEnabled: false,
-                websiteUrl: "",
-              })}
-              itemLabel="Organization"
-              addLabel="Add organization"
-              renderItem={(item, update) => {
-                const websiteEnabled =
-                  item.websiteEnabled ?? Boolean(item.websiteUrl?.trim());
-
-                return (
-                  <>
-                    <Field label="Name">
-                      <Input
-                        value={item.name}
-                        onChange={(e) => update({ name: e.target.value })}
-                      />
-                    </Field>
-                    <Field label="Description">
-                      <Textarea
-                        value={item.description}
-                        onChange={(e) => update({ description: e.target.value })}
-                      />
-                    </Field>
-                    <Field
-                      label="Logo image"
-                      hint="Leave blank to show a generated institution placeholder."
-                    >
-                      <MediaInput
-                        value={item.logoUrl}
-                        onChange={(url) => update({ logoUrl: url })}
-                      />
-                    </Field>
-                    <Toggle
-                      checked={websiteEnabled}
-                      onChange={(checked) => update({ websiteEnabled: checked })}
-                      label="Show Visit Website link"
-                    />
-                    <Field label="Website link">
-                      <Input
-                        value={item.websiteUrl ?? ""}
-                        onChange={(e) => update({ websiteUrl: e.target.value })}
-                        placeholder="https://..."
-                        disabled={!websiteEnabled}
-                      />
-                    </Field>
-                  </>
-                );
-              }}
-            />
-          </Card>
         </div>
+      )}
+
+      {tab === "institutions" && (
+        <Card title="Institutions & Initiatives">
+          <ItemListEditor
+            items={content.organizations}
+            onChange={(v) => patch((d) => (d.organizations = v))}
+            template={() => ({
+              name: "",
+              description: "",
+              logoUrl: "",
+              websiteEnabled: false,
+              websiteUrl: "",
+            })}
+            itemLabel="Institution"
+            addLabel="Add institution or initiative"
+            renderItem={(item, update) => {
+              const websiteEnabled =
+                item.websiteEnabled ?? Boolean(item.websiteUrl?.trim());
+
+              return (
+                <>
+                  <Field label="Name">
+                    <Input
+                      value={item.name}
+                      onChange={(e) => update({ name: e.target.value })}
+                    />
+                  </Field>
+                  <Field label="Description">
+                    <Textarea
+                      value={item.description}
+                      onChange={(e) => update({ description: e.target.value })}
+                    />
+                  </Field>
+                  <Field
+                    label="Logo image"
+                    hint="Leave blank to show a generated institution placeholder."
+                  >
+                    <MediaInput
+                      value={item.logoUrl}
+                      onChange={(url) => update({ logoUrl: url })}
+                    />
+                  </Field>
+                  <Toggle
+                    checked={websiteEnabled}
+                    onChange={(checked) => update({ websiteEnabled: checked })}
+                    label="Show Visit Website link"
+                  />
+                  <Field label="Website link">
+                    <Input
+                      value={item.websiteUrl ?? ""}
+                      onChange={(e) => update({ websiteUrl: e.target.value })}
+                      placeholder="https://..."
+                      disabled={!websiteEnabled}
+                    />
+                  </Field>
+                </>
+              );
+            }}
+          />
+        </Card>
+      )}
+
+      {tab === "testimonials" && (
+        <Card title="Testimonials">
+          <ItemListEditor
+            items={content.testimonials}
+            onChange={(v) => patch((d) => (d.testimonials = v))}
+            template={() => ({
+              quote: "",
+              name: "",
+              role: "",
+              photoUrl: "",
+              rating: 5,
+            })}
+            itemLabel="Testimonial"
+            addLabel="Add testimonial"
+            renderItem={(item, update) => (
+              <>
+                <Field label="Quote">
+                  <Textarea
+                    value={item.quote}
+                    onChange={(e) => update({ quote: e.target.value })}
+                    className="min-h-28"
+                  />
+                </Field>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <Field label="Name">
+                    <Input
+                      value={item.name}
+                      onChange={(e) => update({ name: e.target.value })}
+                    />
+                  </Field>
+                  <Field label="Role">
+                    <Input
+                      value={item.role}
+                      onChange={(e) => update({ role: e.target.value })}
+                    />
+                  </Field>
+                </div>
+                <Field label="Photo">
+                  <MediaInput
+                    value={item.photoUrl}
+                    onChange={(url) => update({ photoUrl: url })}
+                  />
+                </Field>
+                <Field label="Rating" hint="Displayed as stars on the site.">
+                  <Input
+                    type="number"
+                    min={1}
+                    max={5}
+                    value={item.rating ?? 5}
+                    onChange={(e) =>
+                      update({
+                        rating: Math.min(
+                          5,
+                          Math.max(1, Number(e.target.value) || 1),
+                        ),
+                      })
+                    }
+                  />
+                </Field>
+              </>
+            )}
+          />
+        </Card>
       )}
 
       {tab === "about" && (
