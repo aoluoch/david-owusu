@@ -15,6 +15,7 @@ import {
   Field,
   Input,
   Textarea,
+  Toggle,
 } from "./components/ui";
 import { MediaInput } from "./components/MediaInput";
 import { ItemListEditor, StringListEditor } from "./components/ListEditor";
@@ -419,39 +420,54 @@ export function AdminContent() {
                 name: "",
                 description: "",
                 logoUrl: "",
+                websiteEnabled: false,
                 websiteUrl: "",
               })}
               itemLabel="Organization"
               addLabel="Add organization"
-              renderItem={(item, update) => (
-                <>
-                  <Field label="Name">
-                    <Input
-                      value={item.name}
-                      onChange={(e) => update({ name: e.target.value })}
+              renderItem={(item, update) => {
+                const websiteEnabled =
+                  item.websiteEnabled ?? Boolean(item.websiteUrl?.trim());
+
+                return (
+                  <>
+                    <Field label="Name">
+                      <Input
+                        value={item.name}
+                        onChange={(e) => update({ name: e.target.value })}
+                      />
+                    </Field>
+                    <Field label="Description">
+                      <Textarea
+                        value={item.description}
+                        onChange={(e) => update({ description: e.target.value })}
+                      />
+                    </Field>
+                    <Field
+                      label="Logo image"
+                      hint="Leave blank to show a generated institution placeholder."
+                    >
+                      <MediaInput
+                        value={item.logoUrl}
+                        onChange={(url) => update({ logoUrl: url })}
+                      />
+                    </Field>
+                    <Toggle
+                      checked={websiteEnabled}
+                      onChange={(checked) => update({ websiteEnabled: checked })}
+                      label="Show Visit Website link"
                     />
-                  </Field>
-                  <Field label="Description">
-                    <Textarea
-                      value={item.description}
-                      onChange={(e) => update({ description: e.target.value })}
-                    />
-                  </Field>
-                  <Field label="Logo image">
-                    <MediaInput
-                      value={item.logoUrl}
-                      onChange={(url) => update({ logoUrl: url })}
-                    />
-                  </Field>
-                  <Field label="Website link">
-                    <Input
-                      value={item.websiteUrl ?? ""}
-                      onChange={(e) => update({ websiteUrl: e.target.value })}
-                      placeholder="https://..."
-                    />
-                  </Field>
-                </>
-              )}
+                    <Field label="Website link">
+                      <Input
+                        value={item.websiteUrl ?? ""}
+                        onChange={(e) => update({ websiteUrl: e.target.value })}
+                        placeholder="https://..."
+                        disabled={!websiteEnabled}
+                      />
+                    </Field>
+                  </>
+                );
+              }}
             />
           </Card>
         </div>

@@ -1,0 +1,14 @@
+{
+  "name": "optimize-storage-image",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "node src/main.js"
+  },
+  "dependencies": {
+    "node-appwrite": "^27.0.0",
+    "sharp": "^0.34.3"
+  }
+}

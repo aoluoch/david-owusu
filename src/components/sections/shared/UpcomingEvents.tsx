@@ -11,21 +11,26 @@ import { SectionHeading } from "../../ui/SectionHeading";
 
 interface UpcomingEventsProps {
   events?: EventItem[];
+  limit?: number;
   eyebrow?: string;
   heading?: string;
   subheading?: string;
   background?: "light" | "white";
+  showRegistration?: boolean;
 }
 
 export function UpcomingEvents({
   events,
+  limit,
   eyebrow = "Upcoming Events",
   heading = "Join Us at an Upcoming Event",
   subheading = "Live conferences, executive gatherings, and international tours where you can encounter Dr. Owusu in person.",
   background = "light",
+  showRegistration = true,
 }: UpcomingEventsProps) {
   const site = useContent();
-  const items = events ?? site.events;
+  const allItems = events ?? site.events;
+  const items = limit === undefined ? allItems : allItems.slice(0, limit);
 
   return (
     <section
@@ -82,11 +87,13 @@ export function UpcomingEvents({
                       <ButtonLink to={detailTo} variant="primary" size="md">
                         View Details
                       </ButtonLink>
-                      <EventRegistrationButton
-                        event={event}
-                        variant="outlineDark"
-                        size="md"
-                      />
+                      {showRegistration && (
+                        <EventRegistrationButton
+                          event={event}
+                          variant="outlineDark"
+                          size="md"
+                        />
+                      )}
                     </div>
                   </div>
                 </article>

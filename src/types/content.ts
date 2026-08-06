@@ -83,6 +83,7 @@ export interface Organization {
   name: string;
   description: string;
   logoUrl: string;
+  websiteEnabled?: boolean;
   websiteUrl?: string;
 }
 

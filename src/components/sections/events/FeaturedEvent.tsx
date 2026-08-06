@@ -1,15 +1,26 @@
 import { Calendar, MapPin } from "lucide-react";
 import { useContent } from "../../../lib/ContentContext";
 import { slugify } from "../../../lib/utils";
+import type { EventItem } from "../../../types/content";
 import { ButtonLink } from "../../ui/Button";
 import { Container } from "../../ui/Container";
 import { Reveal } from "../../ui/Reveal";
 import { SectionHeading } from "../../ui/SectionHeading";
 import { EventRegistrationButton } from "./EventRegistrationButton";
 
-export function FeaturedEvent() {
-  const { events } = useContent();
-  const featured = events.find((e) => e.featured) ?? events[0];
+interface FeaturedEventProps {
+  events?: EventItem[];
+  requireFeatured?: boolean;
+}
+
+export function FeaturedEvent({
+  events,
+  requireFeatured = false,
+}: FeaturedEventProps) {
+  const site = useContent();
+  const items = events ?? site.events;
+  const featured =
+    items.find((e) => e.featured) ?? (requireFeatured ? null : items[0]);
 
   if (!featured) return null;
 

@@ -20,8 +20,8 @@ export function HomePage() {
       <AboutPreview />
       <AreasOfInfluence />
       <VisionMission />
-      <FeaturedOrganizations />
-      <UpcomingEvents />
+      <FeaturedOrganizations limit={3} />
+      <UpcomingEvents limit={2} />
       <Testimonials />
       <GalleryPreview />
     </>

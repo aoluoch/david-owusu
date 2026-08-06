@@ -10,6 +10,7 @@ import {
   updateEvent,
 } from "../lib/api";
 import { useContentMeta } from "../lib/ContentContext";
+import { formatEventDate, parseEventDateSelection } from "../lib/eventDates";
 import { RichTextEditor } from "../components/admin/RichTextEditor";
 import { AdminButton, Card, Field, Input, Textarea, Toggle } from "./components/ui";
 import { MediaInput } from "./components/MediaInput";
@@ -43,6 +44,7 @@ export function AdminEventEdit() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [registrations, setRegistrations] = useState<Submission[]>([]);
+  const dateSelection = parseEventDateSelection(form.date);
 
   useEffect(() => {
     if (isNew) return;
@@ -63,6 +65,12 @@ export function AdminEventEdit() {
       title,
       slug: slugEdited ? f.slug : slugify(title),
     }));
+  };
+
+  const handleCalendarDate = (key: "startDate" | "endDate", value: string) => {
+    const next = { ...dateSelection, [key]: value };
+    const date = next.startDate ? formatEventDate(next) : "";
+    set("date", date);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -133,7 +141,29 @@ export function AdminEventEdit() {
                 />
               </Field>
               <div className="grid gap-4 sm:grid-cols-2">
-                <Field label="Date" hint="e.g. August 15–17, 2026">
+                <Field label="Start date">
+                  <Input
+                    type="date"
+                    value={dateSelection.startDate}
+                    onChange={(e) =>
+                      handleCalendarDate("startDate", e.target.value)
+                    }
+                  />
+                </Field>
+                <Field label="End date" hint="Optional for multi-day events">
+                  <Input
+                    type="date"
+                    value={dateSelection.endDate}
+                    min={dateSelection.startDate || undefined}
+                    onChange={(e) => handleCalendarDate("endDate", e.target.value)}
+                  />
+                </Field>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field
+                  label="Display date"
+                  hint="Auto-filled from the calendar, editable if needed."
+                >
                   <Input
                     value={form.date}
                     onChange={(e) => set("date", e.target.value)}

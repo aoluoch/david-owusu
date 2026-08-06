@@ -242,14 +242,29 @@ export async function listEvents(
     return opts.publishedOnly ? defaultSiteContent.events : [];
   }
   try {
-    const queries = [Query.orderAsc("order"), Query.limit(100)];
-    if (opts.publishedOnly) queries.push(Query.equal("published", true));
-    const res = await databases.listDocuments<AnyDoc>({
-      databaseId,
-      collectionId: eventsCollectionId,
-      queries,
-    });
-    return res.documents.map(mapEvent);
+    const limit = 100;
+    let offset = 0;
+    const documents: AnyDoc[] = [];
+
+    while (true) {
+      const queries = [
+        Query.orderAsc("order"),
+        Query.limit(limit),
+        Query.offset(offset),
+      ];
+      if (opts.publishedOnly) queries.push(Query.equal("published", true));
+      const res = await databases.listDocuments<AnyDoc>({
+        databaseId,
+        collectionId: eventsCollectionId,
+        queries,
+      });
+
+      documents.push(...res.documents);
+      if (res.documents.length < limit) break;
+      offset += limit;
+    }
+
+    return documents.map(mapEvent);
   } catch {
     return opts.publishedOnly ? defaultSiteContent.events : [];
   }
