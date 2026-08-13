@@ -11,6 +11,7 @@ import {
 } from "../lib/api";
 import { useContentMeta } from "../lib/ContentContext";
 import { formatEventDate, parseEventDateSelection } from "../lib/eventDates";
+import { PageLoader } from "../components/ui/PageLoader";
 import { RichTextEditor } from "../components/admin/RichTextEditor";
 import { AdminButton, Card, Field, Input, Textarea, Toggle } from "./components/ui";
 import { MediaInput } from "./components/MediaInput";
@@ -91,7 +92,7 @@ export function AdminEventEdit() {
   };
 
   if (loading) {
-    return <p className="text-sm text-slate-500">Loading…</p>;
+    return <PageLoader variant="inline" label="Loading event" />;
   }
 
   return (

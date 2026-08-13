@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import type { BlogPost } from "../types/content";
 import { deletePost, listPosts } from "../lib/api";
+import { PageLoader } from "../components/ui/PageLoader";
 import { AdminButton, Card } from "./components/ui";
 
 function formatDate(iso: string): string {
@@ -49,7 +50,7 @@ export function AdminBlog() {
 
       <Card className="p-0">
         {loading ? (
-          <p className="p-6 text-sm text-slate-500">Loading…</p>
+          <PageLoader variant="inline" />
         ) : posts.length === 0 ? (
           <p className="p-6 text-sm text-slate-500">
             No posts yet. Write your first article.

@@ -6,6 +6,7 @@ import { getEventBySlug } from "../lib/api";
 import { Container } from "../components/ui/Container";
 import { RichText } from "../components/ui/RichText";
 import { EventRegistrationButton } from "../components/sections/events";
+import { PageLoader } from "../components/ui/PageLoader";
 
 export function EventDetailPage() {
   const { slug = "" } = useParams();
@@ -26,7 +27,12 @@ export function EventDetailPage() {
 
   if (loading) {
     return (
-      <div className="pt-40 pb-32 text-center text-slate-500">Loading…</div>
+      <PageLoader
+        variant="page"
+        tone="dark"
+        className="min-h-screen hero-gradient"
+        label="Loading event"
+      />
     );
   }
 

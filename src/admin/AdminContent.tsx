@@ -9,6 +9,7 @@ import {
 } from "../lib/api";
 import { useContentMeta } from "../lib/ContentContext";
 import { cn } from "../lib/utils";
+import { PageLoader } from "../components/ui/PageLoader";
 import {
   AdminButton,
   Card,
@@ -117,7 +118,7 @@ export function AdminContent() {
   };
 
   if (loading) {
-    return <p className="text-sm text-slate-500">Loading content…</p>;
+    return <PageLoader variant="inline" label="Loading content" />;
   }
 
   return (

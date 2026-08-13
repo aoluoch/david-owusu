@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Pencil, Plus, Star, Trash2 } from "lucide-react";
 import type { EventItem } from "../types/content";
 import { deleteEvent, listEvents } from "../lib/api";
+import { PageLoader } from "../components/ui/PageLoader";
 import { AdminButton, Card } from "./components/ui";
 
 export function AdminEvents() {
@@ -44,7 +45,7 @@ export function AdminEvents() {
 
       <Card className="p-0">
         {loading ? (
-          <p className="p-6 text-sm text-slate-500">Loading…</p>
+          <PageLoader variant="inline" />
         ) : events.length === 0 ? (
           <p className="p-6 text-sm text-slate-500">
             No events yet. Create your first one.

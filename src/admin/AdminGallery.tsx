@@ -3,6 +3,7 @@ import { ArrowDown, ArrowUp, Loader2, Plus, Trash2 } from "lucide-react";
 import type { GalleryImage } from "../types/content";
 import { fetchGallery, saveGallery } from "../lib/api";
 import { useContentMeta } from "../lib/ContentContext";
+import { PageLoader } from "../components/ui/PageLoader";
 import { AdminButton, Card, Field, Input } from "./components/ui";
 import { MediaInput } from "./components/MediaInput";
 
@@ -66,7 +67,7 @@ export function AdminGallery() {
   };
 
   if (loading) {
-    return <p className="text-sm text-slate-500">Loading gallery…</p>;
+    return <PageLoader variant="inline" label="Loading gallery" />;
   }
 
   return (

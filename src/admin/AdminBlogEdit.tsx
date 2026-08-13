@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import type { BlogPost } from "../types/content";
 import { createPost, getPost, slugify, updatePost } from "../lib/api";
+import { PageLoader } from "../components/ui/PageLoader";
 import { RichTextEditor } from "../components/admin/RichTextEditor";
 import { AdminButton, Card, Field, Input, Textarea, Toggle } from "./components/ui";
 import { MediaInput } from "./components/MediaInput";
@@ -86,7 +87,7 @@ export function AdminBlogEdit() {
   };
 
   if (loading) {
-    return <p className="text-sm text-slate-500">Loading…</p>;
+    return <PageLoader variant="inline" label="Loading article" />;
   }
 
   return (

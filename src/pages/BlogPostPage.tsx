@@ -5,6 +5,7 @@ import type { BlogPost } from "../types/content";
 import { getPostBySlug } from "../lib/api";
 import { Container } from "../components/ui/Container";
 import { RichText } from "../components/ui/RichText";
+import { PageLoader } from "../components/ui/PageLoader";
 
 function formatDate(iso: string): string {
   const d = new Date(iso);
@@ -36,7 +37,12 @@ export function BlogPostPage() {
 
   if (loading) {
     return (
-      <div className="pt-40 pb-32 text-center text-slate-500">Loading…</div>
+      <PageLoader
+        variant="page"
+        tone="dark"
+        className="min-h-screen hero-gradient"
+        label="Loading article"
+      />
     );
   }
 

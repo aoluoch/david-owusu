@@ -14,6 +14,7 @@ import {
   setSubmissionRead,
 } from "../lib/api";
 import { cn } from "../lib/utils";
+import { PageLoader } from "../components/ui/PageLoader";
 import { AdminButton, Card } from "./components/ui";
 
 function formatDate(iso: string): string {
@@ -143,7 +144,7 @@ export function AdminMessages() {
         {/* List */}
         <Card className="p-0 lg:col-span-2">
           {loading ? (
-            <p className="p-6 text-sm text-slate-500">Loading…</p>
+            <PageLoader variant="inline" />
           ) : visible.length === 0 ? (
             <p className="p-6 text-sm text-slate-500">
               {filter === "unread"

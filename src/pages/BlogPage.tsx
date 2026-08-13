@@ -7,6 +7,7 @@ import { appwriteConfig, collectionChannel, subscribe } from "../lib/appwrite";
 import { Container } from "../components/ui/Container";
 import { Reveal } from "../components/ui/Reveal";
 import { PageHero } from "../components/sections/shared";
+import { PageLoader } from "../components/ui/PageLoader";
 
 function formatDate(iso: string): string {
   const d = new Date(iso);
@@ -54,7 +55,7 @@ export function BlogPage() {
       <section className="py-24 bg-white">
         <Container>
           {loading ? (
-            <p className="text-center text-slate-500">Loading articles…</p>
+            <PageLoader variant="page" label="Loading articles" />
           ) : posts.length === 0 ? (
             <p className="text-center text-slate-500">
               No articles published yet. Check back soon.
