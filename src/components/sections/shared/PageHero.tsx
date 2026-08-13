@@ -17,7 +17,7 @@ export function PageHero({
   children,
 }: PageHeroProps) {
   return (
-    <section className="hero-gradient relative overflow-hidden pt-36 pb-24 lg:pt-44 lg:pb-32">
+    <section className="hero-gradient relative overflow-hidden pt-28 pb-16 sm:pt-36 sm:pb-24 lg:pt-44 lg:pb-32">
       <div
         aria-hidden
         className="absolute inset-0 opacity-10"
@@ -33,18 +33,18 @@ export function PageHero({
       />
 
       <Container>
-        <div className="relative grid lg:grid-cols-2 gap-12 items-center">
-          <div className="text-center lg:text-left">
+        <div className="relative grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+          <div className="min-w-0 text-center lg:text-left">
             {eyebrow && (
-              <p className="text-gold font-semibold text-sm uppercase tracking-widest mb-3">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-gold sm:text-sm">
                 {eyebrow}
               </p>
             )}
-            <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+            <h1 className="mb-4 font-heading text-3xl font-bold leading-tight text-white sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl">
               {title}
             </h1>
             {description && (
-              <p className="text-blue-100 text-lg leading-relaxed max-w-xl mx-auto lg:mx-0">
+              <p className="mx-auto max-w-xl text-base leading-relaxed text-blue-100 sm:text-lg lg:mx-0">
                 {description}
               </p>
             )}
@@ -58,7 +58,7 @@ export function PageHero({
                 src={imageUrl}
                 alt={title}
                 loading="eager"
-                className="relative rounded-3xl shadow-2xl w-80 md:w-96 object-cover ring-1 ring-white/10"
+                className="relative w-full max-w-80 rounded-3xl object-cover shadow-2xl ring-1 ring-white/10 md:max-w-96"
                 style={{ aspectRatio: "4/5" }}
               />
             </div>

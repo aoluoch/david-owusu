@@ -13,7 +13,7 @@ interface EventRegistrationButtonProps {
 }
 
 const inputClass =
-  "w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-royal focus:ring-2 focus:ring-royal/20";
+  "w-full min-w-0 max-w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-base outline-none transition focus:border-royal focus:ring-2 focus:ring-royal/20";
 
 export function EventRegistrationButton({
   event,
@@ -77,20 +77,20 @@ export function EventRegistrationButton({
 
       {open && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-navy/70 px-4 py-8 backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex items-end justify-center overflow-y-auto bg-navy/70 px-4 py-4 backdrop-blur-sm sm:items-center sm:py-8"
           role="dialog"
           aria-modal="true"
           aria-labelledby="event-registration-title"
         >
-          <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl md:p-8">
-            <div className="mb-5 flex items-start justify-between gap-4">
-              <div>
+          <div className="my-auto w-full max-w-lg rounded-2xl bg-white p-5 shadow-2xl sm:p-6 md:p-8">
+            <div className="mb-5 flex items-start justify-between gap-3 sm:gap-4">
+              <div className="min-w-0">
                 <p className="text-xs font-semibold uppercase tracking-widest text-gold">
                   Event Registration
                 </p>
                 <h2
                   id="event-registration-title"
-                  className="mt-1 font-heading text-2xl font-bold text-navy"
+                  className="mt-1 break-words font-heading text-xl font-bold text-navy sm:text-2xl"
                 >
                   {event.title}
                 </h2>
@@ -157,7 +157,7 @@ export function EventRegistrationButton({
                   <button
                     type="button"
                     onClick={() => setOpen(false)}
-                    className="rounded-full px-5 py-2.5 text-sm font-semibold text-slate-500 transition hover:bg-gray-100 hover:text-navy"
+                    className="w-full rounded-full px-5 py-2.5 text-sm font-semibold text-slate-500 transition hover:bg-gray-100 hover:text-navy sm:w-auto"
                   >
                     Cancel
                   </button>

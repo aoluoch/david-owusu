@@ -31,7 +31,7 @@ export function Navbar() {
           : "bg-transparent",
       )}
     >
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
         <Link to="/" className="flex items-center gap-2">
           <span
             className={cn(
@@ -100,7 +100,7 @@ export function Navbar() {
           open ? "max-h-[500px]" : "max-h-0",
         )}
       >
-        <div className="px-6 py-6 space-y-3 flex flex-col">
+        <div className="flex flex-col space-y-3 px-4 py-6 sm:px-6">
           {nav.map((item) => (
             <NavLink
               key={item.to}

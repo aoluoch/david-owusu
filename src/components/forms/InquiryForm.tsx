@@ -19,7 +19,7 @@ interface InquiryFormProps {
 }
 
 const inputClass =
-  "w-full px-5 py-3 rounded-xl bg-white border border-gray-200 focus:border-royal focus:outline-none focus:ring-2 focus:ring-royal/20 transition";
+  "w-full min-w-0 max-w-full px-4 py-3 sm:px-5 rounded-xl bg-white border border-gray-200 text-base focus:border-royal focus:outline-none focus:ring-2 focus:ring-royal/20 transition";
 
 export function InquiryForm({
   defaultType,
@@ -70,17 +70,17 @@ export function InquiryForm({
     return (
       <div
         className={cn(
-          "p-8 md:p-10 rounded-2xl bg-light border border-gray-100 text-center",
+          "rounded-2xl border border-gray-100 bg-light p-5 text-center sm:p-8 md:p-10",
           className,
         )}
       >
         <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-royal/10 text-royal">
           <CheckCircle2 size={30} />
         </div>
-        <h3 className="font-heading text-2xl font-bold text-navy">
+        <h3 className="font-heading text-xl font-bold text-navy sm:text-2xl">
           Thank you — your message has been received.
         </h3>
-        <p className="mt-2 text-slate-600">
+        <p className="mt-2 text-sm text-slate-600 sm:text-base">
           David&apos;s team will get back to you as soon as possible.
         </p>
         <button
@@ -98,45 +98,89 @@ export function InquiryForm({
     <form
       onSubmit={handleSubmit}
       className={cn(
-        "p-8 md:p-10 rounded-2xl bg-light border border-gray-100",
+        "min-w-0 rounded-2xl border border-gray-100 bg-light p-5 sm:p-8 md:p-10",
         className,
       )}
     >
-      <p className="text-gold font-semibold text-sm uppercase tracking-widest mb-2">
+      <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-gold sm:text-sm">
         {eyebrow}
       </p>
-      <h3 className="font-heading text-2xl md:text-3xl font-bold text-navy mb-6">
+      <h3 className="mb-5 font-heading text-xl font-bold text-navy sm:mb-6 sm:text-2xl md:text-3xl">
         {title}
       </h3>
 
       {types && types.length > 1 && (
-        <div className="flex flex-wrap gap-2 mb-6">
-          {types.map((t) => (
-            <button
-              key={t}
-              type="button"
-              onClick={() => setType(t)}
-              className={cn(
-                "px-4 py-2 rounded-full text-sm font-semibold transition border",
-                type === t
-                  ? "bg-royal text-white border-royal"
-                  : "bg-white text-navy border-gray-200 hover:border-royal",
-              )}
+        <>
+          <label className="mb-5 block sm:hidden">
+            <span className="sr-only">Inquiry type</span>
+            <select
+              value={type}
+              onChange={(e) => setType(e.target.value as SubmissionType)}
+              className={cn(inputClass, "cursor-pointer pr-10")}
             >
-              {t}
-            </button>
-          ))}
-        </div>
+              {types.map((t) => (
+                <option key={t} value={t}>
+                  {t}
+                </option>
+              ))}
+            </select>
+          </label>
+          <div className="mb-6 hidden flex-wrap gap-2 sm:flex">
+            {types.map((t) => (
+              <button
+                key={t}
+                type="button"
+                onClick={() => setType(t)}
+                className={cn(
+                  "rounded-full border px-4 py-2 text-sm font-semibold transition",
+                  type === t
+                    ? "border-royal bg-royal text-white"
+                    : "border-gray-200 bg-white text-navy hover:border-royal",
+                )}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
+        </>
       )}
 
-      <div className="grid md:grid-cols-2 gap-4 mb-4">
-        <input type="text" name="firstName" required placeholder="First Name" className={inputClass} />
-        <input type="text" name="lastName" required placeholder="Last Name" className={inputClass} />
+      <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <input
+          type="text"
+          name="firstName"
+          required
+          placeholder="First Name"
+          autoComplete="given-name"
+          className={inputClass}
+        />
+        <input
+          type="text"
+          name="lastName"
+          required
+          placeholder="Last Name"
+          autoComplete="family-name"
+          className={inputClass}
+        />
       </div>
 
-      <div className="grid md:grid-cols-2 gap-4 mb-4">
-        <input type="email" name="email" required placeholder="Email Address" className={inputClass} />
-        <input type="tel" name="phone" required placeholder="Phone Number" className={inputClass} />
+      <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <input
+          type="email"
+          name="email"
+          required
+          placeholder="Email Address"
+          autoComplete="email"
+          className={inputClass}
+        />
+        <input
+          type="tel"
+          name="phone"
+          required
+          placeholder="Phone Number"
+          autoComplete="tel"
+          className={inputClass}
+        />
       </div>
 
       <input
@@ -144,6 +188,7 @@ export function InquiryForm({
         name="organization"
         required
         placeholder="Organization"
+        autoComplete="organization"
         className={cn(inputClass, "mb-4")}
       />
 
@@ -162,15 +207,25 @@ export function InquiryForm({
         required
         rows={5}
         placeholder={messagePlaceholder ?? "Tell us more…"}
-        className={cn(inputClass, "mb-6 resize-y")}
+        className={cn(inputClass, "mb-6 min-h-32 resize-y")}
       />
 
-      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-        <Button type="submit" variant="primary" size="lg" disabled={submitting}>
+      <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-4">
+        <Button
+          type="submit"
+          variant="primary"
+          size="lg"
+          disabled={submitting}
+          className="w-full sm:w-auto"
+        >
           {submitting && <Loader2 size={18} className="animate-spin" />}
           Send Message
         </Button>
-        {error && <p className="text-red-600 font-semibold text-sm">{error}</p>}
+        {error && (
+          <p className="text-sm font-semibold text-red-600 sm:flex-1">
+            {error}
+          </p>
+        )}
       </div>
     </form>
   );

@@ -11,9 +11,9 @@ export function InvitePage() {
         title="Invite David to Speak"
         description="Share your event details and our team will respond with availability, requirements, and next steps."
       />
-      <section className="py-24 bg-white">
+      <section className="bg-white py-12 sm:py-16 lg:py-24">
         <Container>
-          <Reveal className="mx-auto max-w-2xl">
+          <Reveal className="mx-auto min-w-0 max-w-2xl">
             <InquiryForm
               defaultType="Speaking Invitation"
               eyebrow="Speaking Invitation"

@@ -21,7 +21,7 @@ export function SectionHeading({
   return (
     <Reveal
       className={cn(
-        "mb-16",
+        "mb-10 md:mb-16",
         align === "center" ? "text-center" : "text-left",
         className,
       )}
@@ -38,7 +38,7 @@ export function SectionHeading({
       )}
       <h2
         className={cn(
-          "font-heading text-3xl md:text-4xl lg:text-5xl font-bold",
+          "font-heading text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold",
           invert ? "text-white" : "text-navy",
         )}
       >

@@ -11,21 +11,21 @@ export function ContactFAQ() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   return (
-    <section className="py-24 bg-light">
+    <section className="bg-light py-12 sm:py-16 lg:py-24">
       <Container size="md">
         <SectionHeading eyebrow="FAQ" heading="Frequently Asked Questions" />
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {contact.faqs.map((faq, i) => {
             const open = openFaq === i;
             return (
-              <Reveal key={faq.q} delay={i * 60}>
+              <Reveal key={faq.q} delay={i * 60} className="min-w-0">
                 <button
                   type="button"
                   onClick={() => setOpenFaq(open ? null : i)}
-                  className="w-full text-left p-6 rounded-2xl bg-white shadow-sm border border-gray-100 hover:border-royal/30 transition"
+                  className="w-full rounded-2xl border border-gray-100 bg-white p-4 text-left shadow-sm transition hover:border-royal/30 sm:p-6"
                 >
-                  <div className="flex items-center justify-between gap-4">
-                    <h3 className="font-heading text-lg font-semibold text-navy">
+                  <div className="flex items-start justify-between gap-3 sm:items-center sm:gap-4">
+                    <h3 className="min-w-0 font-heading text-base font-semibold text-navy sm:text-lg">
                       {faq.q}
                     </h3>
                     <ChevronDown
@@ -45,7 +45,7 @@ export function ContactFAQ() {
                     )}
                   >
                     <div className="min-h-0">
-                      <p className="text-gray-600 leading-relaxed">{faq.a}</p>
+                      <p className="text-sm leading-relaxed text-gray-600 sm:text-base">{faq.a}</p>
                     </div>
                   </div>
                 </button>

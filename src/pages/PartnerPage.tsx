@@ -11,9 +11,9 @@ export function PartnerPage() {
         title="Partner With Us"
         description="Join a global movement advancing leadership, ministry, and community transformation. Let's explore how we can work together."
       />
-      <section className="py-24 bg-white">
+      <section className="bg-white py-12 sm:py-16 lg:py-24">
         <Container>
-          <Reveal className="mx-auto max-w-2xl">
+          <Reveal className="mx-auto min-w-0 max-w-2xl">
             <InquiryForm
               defaultType="Partnership"
               eyebrow="Partnership Inquiry"
