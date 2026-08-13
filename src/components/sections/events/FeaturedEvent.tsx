@@ -1,6 +1,6 @@
 import { Calendar, MapPin } from "lucide-react";
 import { useContent } from "../../../lib/ContentContext";
-import { slugify } from "../../../lib/utils";
+import { slugify, hasMediaUrl } from "../../../lib/utils";
 import type { EventItem } from "../../../types/content";
 import { ButtonLink } from "../../ui/Button";
 import { Container } from "../../ui/Container";
@@ -33,12 +33,14 @@ export function FeaturedEvent({
         <Reveal>
           <div className="grid md:grid-cols-2 gap-10 items-center bg-navy rounded-3xl overflow-hidden">
             <div className="flex aspect-[4/3] items-center justify-center overflow-hidden bg-white/5 md:aspect-auto md:h-full">
-              <img
-                src={featured.imageUrl}
-                alt={featured.imageAlt}
-                loading="lazy"
-                className="h-full w-full object-contain p-4"
-              />
+              {hasMediaUrl(featured.imageUrl) && (
+                <img
+                  src={featured.imageUrl}
+                  alt={featured.imageAlt}
+                  loading="lazy"
+                  className="h-full w-full object-contain p-4"
+                />
+              )}
             </div>
             <div className="p-10 lg:p-14 text-white">
               <p className="text-gold font-semibold text-sm uppercase tracking-widest mb-3">

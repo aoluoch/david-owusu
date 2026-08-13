@@ -7,6 +7,7 @@ import { Container } from "../components/ui/Container";
 import { RichText } from "../components/ui/RichText";
 import { EventRegistrationButton } from "../components/sections/events";
 import { PageLoader } from "../components/ui/PageLoader";
+import { hasMediaUrl } from "../lib/utils";
 
 export function EventDetailPage() {
   const { slug = "" } = useParams();
@@ -81,7 +82,7 @@ export function EventDetailPage() {
         <Container>
           <div className="grid lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2">
-              {event.imageUrl && (
+              {hasMediaUrl(event.imageUrl) && (
                 <div className="mb-10 flex max-h-[520px] min-h-72 items-center justify-center overflow-hidden rounded-2xl bg-light shadow-lg">
                   <img
                     src={event.imageUrl}

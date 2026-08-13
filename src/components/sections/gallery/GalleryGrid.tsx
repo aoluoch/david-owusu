@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { X } from "lucide-react";
 import { useContent } from "../../../lib/ContentContext";
-import { cn } from "../../../lib/utils";
+import { cn, hasMediaUrl } from "../../../lib/utils";
 import { Container } from "../../ui/Container";
 import { Reveal } from "../../ui/Reveal";
 
@@ -22,9 +22,10 @@ export function GalleryGrid() {
 
   const filtered = useMemo(
     () =>
-      activeCategory === "All"
+      (activeCategory === "All"
         ? galleryPreview
-        : galleryPreview.filter((img) => img.category === activeCategory),
+        : galleryPreview.filter((img) => img.category === activeCategory)
+      ).filter((img) => hasMediaUrl(img.url)),
     [activeCategory, galleryPreview],
   );
 

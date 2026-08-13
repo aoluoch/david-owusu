@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { hasMediaUrl } from "../../../lib/utils";
 import { Container } from "../../ui/Container";
 
 interface PageHeroProps {
@@ -51,7 +52,7 @@ export function PageHero({
             {children && <div className="mt-8">{children}</div>}
           </div>
 
-          {imageUrl && (
+          {hasMediaUrl(imageUrl) && (
             <div className="relative flex justify-center lg:justify-end">
               <div className="absolute -inset-4 rounded-3xl bg-gold/30 blur-3xl" />
               <img

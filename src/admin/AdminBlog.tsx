@@ -4,6 +4,7 @@ import { Pencil, Plus, Trash2 } from "lucide-react";
 import type { BlogPost } from "../types/content";
 import { deletePost, listPosts } from "../lib/api";
 import { PageLoader } from "../components/ui/PageLoader";
+import { hasMediaUrl } from "../lib/utils";
 import { AdminButton, Card } from "./components/ui";
 
 function formatDate(iso: string): string {
@@ -62,11 +63,15 @@ export function AdminBlog() {
                 key={post.id}
                 className="flex items-center gap-4 p-4 hover:bg-gray-50"
               >
-                <img
-                  src={post.coverImageUrl}
-                  alt=""
-                  className="h-14 w-20 shrink-0 rounded-lg object-cover"
-                />
+                {hasMediaUrl(post.coverImageUrl) ? (
+                  <img
+                    src={post.coverImageUrl}
+                    alt=""
+                    className="h-14 w-20 shrink-0 rounded-lg object-cover"
+                  />
+                ) : (
+                  <div className="h-14 w-20 shrink-0 rounded-lg bg-gray-100" />
+                )}
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-semibold text-navy">
                     {post.title}

@@ -1,5 +1,6 @@
 import { Quote, Star } from "lucide-react";
 import { useContent } from "../../../lib/ContentContext";
+import { hasMediaUrl } from "../../../lib/utils";
 import { Container } from "../../ui/Container";
 import { Reveal } from "../../ui/Reveal";
 import { SectionHeading } from "../../ui/SectionHeading";
@@ -33,12 +34,21 @@ export function Testimonials() {
                   “{t.quote}”
                 </p>
                 <div className="flex items-center gap-3">
-                  <img
-                    className="w-12 h-12 rounded-full object-cover ring-2 ring-gold/30"
-                    loading="lazy"
-                    src={t.photoUrl}
-                    alt={t.name}
-                  />
+                  {hasMediaUrl(t.photoUrl) ? (
+                    <img
+                      className="h-12 w-12 rounded-full object-cover ring-2 ring-gold/30"
+                      loading="lazy"
+                      src={t.photoUrl}
+                      alt={t.name}
+                    />
+                  ) : (
+                    <div
+                      aria-hidden
+                      className="flex h-12 w-12 items-center justify-center rounded-full bg-royal/10 font-semibold text-royal ring-2 ring-gold/30"
+                    >
+                      {t.name.trim().charAt(0) || "?"}
+                    </div>
+                  )}
                   <div>
                     <p className="font-semibold text-navy text-sm">{t.name}</p>
                     <p className="text-gray-400 text-xs">{t.role}</p>

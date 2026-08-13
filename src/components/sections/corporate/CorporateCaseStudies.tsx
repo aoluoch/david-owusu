@@ -1,4 +1,5 @@
 import { useContent } from "../../../lib/ContentContext";
+import { hasMediaUrl } from "../../../lib/utils";
 import { Container } from "../../ui/Container";
 import { Reveal } from "../../ui/Reveal";
 import { SectionHeading } from "../../ui/SectionHeading";
@@ -18,13 +19,15 @@ export function CorporateCaseStudies() {
           {corporate.caseStudies.map((study, i) => (
             <Reveal key={study.title} delay={(i % 3) * 100}>
               <article className="card-lift h-full rounded-2xl overflow-hidden bg-white border border-gray-100 flex flex-col">
-                <div className="aspect-video overflow-hidden">
-                  <img
-                    src={study.imageUrl}
-                    alt={study.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover"
-                  />
+                <div className="aspect-video overflow-hidden bg-light">
+                  {hasMediaUrl(study.imageUrl) && (
+                    <img
+                      src={study.imageUrl}
+                      alt={study.title}
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                    />
+                  )}
                 </div>
                 <div className="p-6 flex flex-col flex-1">
                   <p className="text-gold text-xs font-semibold uppercase tracking-widest mb-2">

@@ -4,6 +4,7 @@ import { Pencil, Plus, Star, Trash2 } from "lucide-react";
 import type { EventItem } from "../types/content";
 import { deleteEvent, listEvents } from "../lib/api";
 import { PageLoader } from "../components/ui/PageLoader";
+import { hasMediaUrl } from "../lib/utils";
 import { AdminButton, Card } from "./components/ui";
 
 export function AdminEvents() {
@@ -57,11 +58,15 @@ export function AdminEvents() {
                 key={event.id}
                 className="flex items-center gap-4 p-4 hover:bg-gray-50"
               >
-                <img
-                  src={event.imageUrl}
-                  alt=""
-                  className="h-14 w-20 shrink-0 rounded-lg object-cover"
-                />
+                {hasMediaUrl(event.imageUrl) ? (
+                  <img
+                    src={event.imageUrl}
+                    alt=""
+                    className="h-14 w-20 shrink-0 rounded-lg object-cover"
+                  />
+                ) : (
+                  <div className="h-14 w-20 shrink-0 rounded-lg bg-gray-100" />
+                )}
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
                     <p className="truncate font-semibold text-navy">

@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { ImageUp, Loader2 } from "lucide-react";
 import { uploadMedia } from "../../lib/api";
 import { isAppwriteConfigured } from "../../lib/appwrite";
+import { hasMediaUrl } from "../../lib/utils";
 import { Input } from "./ui";
 
 interface MediaInputProps {
@@ -68,7 +69,7 @@ export function MediaInput({ value, onChange, placeholder }: MediaInputProps) {
         />
       </div>
       {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
-      {value && (
+      {hasMediaUrl(value) && (
         <img
           src={value}
           alt="preview"

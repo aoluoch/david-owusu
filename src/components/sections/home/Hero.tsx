@@ -1,4 +1,5 @@
 import { useContent } from "../../../lib/ContentContext";
+import { cn, hasMediaUrl } from "../../../lib/utils";
 import { ButtonLink } from "../../ui/Button";
 
 export function Hero() {
@@ -29,7 +30,12 @@ export function Hero() {
       />
 
       <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center justify-between gap-12 px-4 sm:px-6 lg:flex-row">
-        <div className="lg:w-1/2 text-center lg:text-left">
+        <div
+          className={cn(
+            "text-center lg:text-left",
+            hasMediaUrl(hero.portraitUrl) ? "lg:w-1/2" : "max-w-3xl",
+          )}
+        >
           <p className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-blue-100 text-xs uppercase tracking-widest font-medium mb-6">
             Global Christian Leader • Speaker • Mentor
           </p>
@@ -49,19 +55,21 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="lg:w-1/2 flex justify-center lg:justify-end">
-          <div className="relative">
-            <div className="absolute -inset-6 rounded-3xl bg-gold/30 blur-3xl" />
-            <div className="absolute -inset-1 rounded-3xl gold-gradient opacity-60 blur" />
-            <img
-              className="relative rounded-3xl shadow-2xl w-72 md:w-96 object-cover ring-1 ring-white/10"
-              style={{ aspectRatio: "3/4" }}
-              loading="eager"
-              src={hero.portraitUrl}
-              alt={hero.portraitAlt}
-            />
+        {hasMediaUrl(hero.portraitUrl) && (
+          <div className="lg:w-1/2 flex justify-center lg:justify-end">
+            <div className="relative">
+              <div className="absolute -inset-6 rounded-3xl bg-gold/30 blur-3xl" />
+              <div className="absolute -inset-1 rounded-3xl gold-gradient opacity-60 blur" />
+              <img
+                className="relative rounded-3xl shadow-2xl w-72 md:w-96 object-cover ring-1 ring-white/10"
+                style={{ aspectRatio: "3/4" }}
+                loading="eager"
+                src={hero.portraitUrl}
+                alt={hero.portraitAlt}
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </header>
   );

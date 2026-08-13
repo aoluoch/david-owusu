@@ -1,5 +1,6 @@
 import { BookOpen } from "lucide-react";
 import { useContent } from "../../../lib/ContentContext";
+import { hasMediaUrl } from "../../../lib/utils";
 import { Container } from "../../ui/Container";
 import { Reveal } from "../../ui/Reveal";
 import { SectionHeading } from "../../ui/SectionHeading";
@@ -28,13 +29,15 @@ export function LeadershipBooks() {
           {leadership.books.map((book, i) => (
             <Reveal key={book.title} delay={i * 120}>
               <div className="group h-full p-6 rounded-2xl bg-white/5 backdrop-blur border border-white/10 flex flex-col">
-                <div className="rounded-xl overflow-hidden mb-6 aspect-[3/4]">
-                  <img
-                    src={book.coverUrl}
-                    alt={book.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                    loading="lazy"
-                  />
+                <div className="mb-6 aspect-[3/4] overflow-hidden rounded-xl bg-white/5">
+                  {hasMediaUrl(book.coverUrl) && (
+                    <img
+                      src={book.coverUrl}
+                      alt={book.title}
+                      className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  )}
                 </div>
                 <h3 className="font-heading text-xl font-bold text-white mb-2">
                   {book.title}

@@ -2,7 +2,7 @@ import { Calendar, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import type { EventItem } from "../../../types/content";
 import { useContent } from "../../../lib/ContentContext";
-import { slugify } from "../../../lib/utils";
+import { slugify, hasMediaUrl } from "../../../lib/utils";
 import { EventRegistrationButton } from "../events/EventRegistrationButton";
 import { ButtonLink } from "../../ui/Button";
 import { Container } from "../../ui/Container";
@@ -55,12 +55,14 @@ export function UpcomingEvents({
                     to={detailTo}
                     className="relative flex h-64 items-center justify-center overflow-hidden bg-light"
                   >
-                    <img
-                      className="h-full w-full object-contain p-3 transition duration-500 group-hover:scale-105"
-                      loading="lazy"
-                      src={event.imageUrl}
-                      alt={event.imageAlt}
-                    />
+                    {hasMediaUrl(event.imageUrl) && (
+                      <img
+                        className="h-full w-full object-contain p-3 transition duration-500 group-hover:scale-105"
+                        loading="lazy"
+                        src={event.imageUrl}
+                        alt={event.imageAlt}
+                      />
+                    )}
                     {event.featured && (
                       <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-gold text-navy text-xs font-semibold uppercase tracking-widest">
                         Featured

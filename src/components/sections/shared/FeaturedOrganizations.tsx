@@ -1,5 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import { useContent } from "../../../lib/ContentContext";
+import { hasMediaUrl } from "../../../lib/utils";
 import { Container } from "../../ui/Container";
 import { Reveal } from "../../ui/Reveal";
 import { SectionHeading } from "../../ui/SectionHeading";
@@ -51,7 +52,7 @@ export function FeaturedOrganizations({ limit }: FeaturedOrganizationsProps) {
             <Reveal key={org.name} delay={(i % 3) * 100}>
               <div className="card-lift group h-full rounded-2xl bg-light border border-gray-100 overflow-hidden flex flex-col">
                 <div className="aspect-video overflow-hidden bg-white p-4">
-                  {org.logoUrl?.trim() ? (
+                  {hasMediaUrl(org.logoUrl) ? (
                     <img
                       src={org.logoUrl}
                       alt={org.name}

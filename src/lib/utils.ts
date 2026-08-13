@@ -5,6 +5,14 @@ export function cn(
 }
 
 /**
+ * True when a CMS media field has a real URL. Empty strings must not be
+ * passed to <img src>, or the browser re-requests the current page.
+ */
+export function hasMediaUrl(url?: string | null): url is string {
+  return Boolean(url && url.trim());
+}
+
+/**
  * True for links that should be rendered as a plain <a> rather than a
  * react-router <Link> (absolute URLs, mailto:, tel:, and hash anchors).
  */

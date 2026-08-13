@@ -6,6 +6,7 @@ import { getPostBySlug } from "../lib/api";
 import { Container } from "../components/ui/Container";
 import { RichText } from "../components/ui/RichText";
 import { PageLoader } from "../components/ui/PageLoader";
+import { hasMediaUrl } from "../lib/utils";
 
 function formatDate(iso: string): string {
   const d = new Date(iso);
@@ -100,7 +101,7 @@ export function BlogPostPage() {
       <article className="py-16 lg:py-24 bg-white">
         <Container>
           <div className="mx-auto max-w-3xl">
-            {post.coverImageUrl && (
+            {hasMediaUrl(post.coverImageUrl) && (
               <div className="mb-10 flex max-h-[520px] min-h-72 items-center justify-center overflow-hidden rounded-2xl bg-light shadow-lg">
                 <img
                   src={post.coverImageUrl}

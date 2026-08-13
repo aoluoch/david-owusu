@@ -8,6 +8,7 @@ import { Container } from "../components/ui/Container";
 import { Reveal } from "../components/ui/Reveal";
 import { PageHero } from "../components/sections/shared";
 import { PageLoader } from "../components/ui/PageLoader";
+import { hasMediaUrl } from "../lib/utils";
 
 function formatDate(iso: string): string {
   const d = new Date(iso);
@@ -69,12 +70,14 @@ export function BlogPage() {
                     className="card-lift group flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-lg"
                   >
                     <div className="flex h-56 items-center justify-center overflow-hidden bg-light">
-                      <img
-                        src={post.coverImageUrl}
-                        alt={post.coverImageAlt}
-                        loading="lazy"
-                        className="h-full w-full object-contain p-3 transition duration-500 group-hover:scale-105"
-                      />
+                      {hasMediaUrl(post.coverImageUrl) && (
+                        <img
+                          src={post.coverImageUrl}
+                          alt={post.coverImageAlt}
+                          loading="lazy"
+                          className="h-full w-full object-contain p-3 transition duration-500 group-hover:scale-105"
+                        />
+                      )}
                     </div>
                     <div className="flex flex-1 flex-col p-6">
                       {post.tags?.[0] && (
