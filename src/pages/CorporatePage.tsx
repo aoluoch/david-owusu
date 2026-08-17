@@ -5,9 +5,32 @@ import {
   CorporateServices,
 } from "../components/sections/corporate";
 import { FeaturedOrganizations, PageHero } from "../components/sections/shared";
+import {
+  breadcrumbJsonLd,
+  organizationJsonLd,
+  servicesJsonLd,
+  useSeo,
+} from "../lib/seo";
 
 export function CorporatePage() {
-  const { pageHeaders } = useContent();
+  const content = useContent();
+  const { corporate, pageHeaders } = content;
+
+  useSeo({
+    title: pageHeaders.corporate.title || "Corporate Services",
+    description:
+      pageHeaders.corporate.description ||
+      "Corporate consulting, leadership, and business services from Dr. David Owusu.",
+    path: "/corporate",
+    jsonLd: [
+      organizationJsonLd(content),
+      breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Corporate", path: "/corporate" },
+      ]),
+      ...servicesJsonLd(corporate.services),
+    ],
+  });
 
   return (
     <>

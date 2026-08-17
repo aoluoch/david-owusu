@@ -57,6 +57,9 @@ export function FeaturedOrganizations({ limit }: FeaturedOrganizationsProps) {
                       src={org.logoUrl}
                       alt={org.name}
                       loading="lazy"
+                      decoding="async"
+                      width={320}
+                      height={192}
                       className="h-full w-full object-contain transition duration-500 group-hover:scale-105"
                     />
                   ) : (

@@ -274,7 +274,11 @@ export async function getEventBySlug(slug: string): Promise<EventItem | null> {
     const res = await databases.listDocuments<AnyDoc>({
       databaseId,
       collectionId: eventsCollectionId,
-      queries: [Query.equal("slug", slug), Query.limit(1)],
+      queries: [
+        Query.equal("slug", slug),
+        Query.equal("published", true),
+        Query.limit(1),
+      ],
     });
     const doc = res.documents[0];
     return doc ? mapEvent(doc) : null;
@@ -352,7 +356,11 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
     const res = await databases.listDocuments<AnyDoc>({
       databaseId,
       collectionId: blogCollectionId,
-      queries: [Query.equal("slug", slug), Query.limit(1)],
+      queries: [
+        Query.equal("slug", slug),
+        Query.equal("published", true),
+        Query.limit(1),
+      ],
     });
     const doc = res.documents[0];
     return doc ? mapPost(doc) : null;

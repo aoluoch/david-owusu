@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "../lib/AuthContext";
 import { cn } from "../lib/utils";
+import { useSeo } from "../lib/seo";
 
 const navItems = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, end: true },
@@ -28,6 +29,13 @@ export function AdminLayout() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+
+  useSeo({
+    title: "Website Administration",
+    description: "Private website administration area.",
+    path: "/admin",
+    noindex: true,
+  });
 
   const handleLogout = async () => {
     await logout();

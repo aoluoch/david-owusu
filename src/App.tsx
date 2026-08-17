@@ -8,11 +8,12 @@ const MIN_SPLASH_MS = 700;
 
 function BootSplash() {
   const { loading } = useContentMeta();
-  const shownAt = useRef(Date.now());
+  const shownAt = useRef(0);
 
   useEffect(() => {
     const el = document.getElementById("boot-loader");
     if (!el) return;
+    if (shownAt.current === 0) shownAt.current = Date.now();
 
     let hideTimer: number | undefined;
     let removeTimer: number | undefined;

@@ -25,6 +25,9 @@ export function CorporateCaseStudies() {
                       src={study.imageUrl}
                       alt={study.title}
                       loading="lazy"
+                      decoding="async"
+                      width={640}
+                      height={400}
                       className="h-full w-full object-cover"
                     />
                   )}

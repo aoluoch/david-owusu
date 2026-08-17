@@ -1,7 +1,14 @@
 import { ButtonLink } from "../components/ui/Button";
 import { Container } from "../components/ui/Container";
+import { useSeo } from "../lib/seo";
 
 export function NotFoundPage() {
+  useSeo({
+    title: "Page Not Found",
+    description: "The requested page could not be found on the David Owusu website.",
+    noindex: true,
+  });
+
   return (
     <section className="hero-gradient pt-40 pb-32 text-center text-white">
       <Container size="sm">

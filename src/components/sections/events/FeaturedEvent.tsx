@@ -38,6 +38,9 @@ export function FeaturedEvent({
                   src={featured.imageUrl}
                   alt={featured.imageAlt}
                   loading="lazy"
+                  decoding="async"
+                  width={640}
+                  height={480}
                   className="h-full w-full object-contain p-4"
                 />
               )}

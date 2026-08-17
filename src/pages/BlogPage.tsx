@@ -9,6 +9,7 @@ import { Reveal } from "../components/ui/Reveal";
 import { PageHero } from "../components/sections/shared";
 import { PageLoader } from "../components/ui/PageLoader";
 import { hasMediaUrl } from "../lib/utils";
+import { breadcrumbJsonLd, useSeo } from "../lib/seo";
 
 function formatDate(iso: string): string {
   const d = new Date(iso);
@@ -24,6 +25,19 @@ function formatDate(iso: string): string {
 export function BlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
+
+  useSeo({
+    title: "Blog",
+    description:
+      "Articles, reflections, and teaching from Dr. David Owusu on leadership, faith, business, and enduring impact.",
+    path: "/blog",
+    jsonLd: [
+      breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Blog", path: "/blog" },
+      ]),
+    ],
+  });
 
   useEffect(() => {
     let mounted = true;
@@ -75,6 +89,9 @@ export function BlogPage() {
                           src={post.coverImageUrl}
                           alt={post.coverImageAlt}
                           loading="lazy"
+                          decoding="async"
+                          width={640}
+                          height={448}
                           className="h-full w-full object-contain p-3 transition duration-500 group-hover:scale-105"
                         />
                       )}

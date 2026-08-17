@@ -28,6 +28,9 @@ export function GalleryPreview() {
                   <img
                     className="w-full h-56 object-cover group-hover:scale-110 transition duration-700"
                     loading="lazy"
+                    decoding="async"
+                    width={640}
+                    height={448}
                     src={img.url}
                     alt={img.alt}
                   />

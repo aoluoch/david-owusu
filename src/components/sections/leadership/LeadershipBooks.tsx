@@ -36,6 +36,9 @@ export function LeadershipBooks() {
                       alt={book.title}
                       className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                       loading="lazy"
+                      decoding="async"
+                      width={480}
+                      height={720}
                     />
                   )}
                 </div>

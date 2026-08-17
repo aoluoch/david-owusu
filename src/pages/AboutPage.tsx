@@ -6,9 +6,27 @@ import {
   AboutValues,
 } from "../components/sections/about";
 import { PageHero } from "../components/sections/shared";
+import { breadcrumbJsonLd, organizationJsonLd, useSeo } from "../lib/seo";
 
 export function AboutPage() {
-  const { about, pageHeaders } = useContent();
+  const content = useContent();
+  const { about, pageHeaders } = content;
+
+  useSeo({
+    title: pageHeaders.about.title || "About David Owusu",
+    description:
+      pageHeaders.about.description ||
+      "Learn about Dr. David Owusu's leadership, ministry, business, and community impact.",
+    path: "/about",
+    image: about.heroImage || undefined,
+    jsonLd: [
+      organizationJsonLd(content),
+      breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "About", path: "/about" },
+      ]),
+    ],
+  });
 
   return (
     <>

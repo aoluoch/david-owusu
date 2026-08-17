@@ -112,6 +112,8 @@ export function RichTextEditor({
           <option value="h3">Heading 3</option>
           <option value="h4">Heading 4</option>
         </select>
+        {/* Commands intentionally capture the editor ref used by their click handlers. */}
+        {/* eslint-disable-next-line react-hooks/refs */}
         {commands.map((group, gi) => (
           <div key={gi} className="flex items-center gap-1">
             {gi > 0 && <span className="mx-1 h-5 w-px bg-gray-200" />}

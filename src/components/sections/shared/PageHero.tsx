@@ -59,6 +59,10 @@ export function PageHero({
                 src={imageUrl}
                 alt={title}
                 loading="eager"
+                decoding="async"
+                fetchPriority="high"
+                width={640}
+                height={800}
                 className="relative w-full max-w-80 rounded-3xl object-cover shadow-2xl ring-1 ring-white/10 md:max-w-96"
                 style={{ aspectRatio: "4/5" }}
               />

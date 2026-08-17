@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Loader2, Lock } from "lucide-react";
 import { useAuth } from "../lib/AuthContext";
 import { AdminButton, Field, Input } from "./components/ui";
+import { useSeo } from "../lib/seo";
 
 export function AdminLogin() {
   const { login, user, configured } = useAuth();
@@ -12,6 +13,13 @@ export function AdminLogin() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  useSeo({
+    title: "Admin Sign In",
+    description: "Private website administration sign-in.",
+    path: "/admin/login",
+    noindex: true,
+  });
 
   const from =
     (location.state as { from?: { pathname?: string } } | null)?.from

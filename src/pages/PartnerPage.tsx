@@ -2,8 +2,22 @@ import { Container } from "../components/ui/Container";
 import { Reveal } from "../components/ui/Reveal";
 import { InquiryForm } from "../components/forms/InquiryForm";
 import { PageHero } from "../components/sections/shared";
+import { breadcrumbJsonLd, useSeo } from "../lib/seo";
 
 export function PartnerPage() {
+  useSeo({
+    title: "Partner With David Owusu",
+    description:
+      "Explore partnerships that advance leadership, ministry, enterprise, and community transformation with David Owusu.",
+    path: "/partner",
+    jsonLd: [
+      breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Partner", path: "/partner" },
+      ]),
+    ],
+  });
+
   return (
     <>
       <PageHero

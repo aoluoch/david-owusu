@@ -7,6 +7,12 @@ import { Container } from "../components/ui/Container";
 import { RichText } from "../components/ui/RichText";
 import { PageLoader } from "../components/ui/PageLoader";
 import { hasMediaUrl } from "../lib/utils";
+import {
+  articleJsonLd,
+  breadcrumbJsonLd,
+  stripHtml,
+  useSeo,
+} from "../lib/seo";
 
 function formatDate(iso: string): string {
   const d = new Date(iso);
@@ -27,6 +33,27 @@ export function BlogPostPage() {
   } | null>(null);
   const loading = loaded?.slug !== slug;
   const post = loaded?.post ?? null;
+
+  useSeo({
+    title: loading ? "Article" : post?.title || "Article Not Found",
+    description:
+      post?.excerpt || stripHtml(post?.body || "") || "Article from Dr. David Owusu.",
+    path: `/blog/${slug}`,
+    image: post?.coverImageUrl || undefined,
+    type: "article",
+    publishedTime: post?.publishedAt,
+    noindex: !loading && !post,
+    jsonLd: post
+      ? [
+          articleJsonLd(post),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Blog", path: "/blog" },
+            { name: post.title, path: `/blog/${slug}` },
+          ]),
+        ]
+      : [],
+  });
 
   useEffect(() => {
     let mounted = true;
@@ -106,6 +133,11 @@ export function BlogPostPage() {
                 <img
                   src={post.coverImageUrl}
                   alt={post.coverImageAlt}
+                  loading="eager"
+                  decoding="async"
+                  fetchPriority="high"
+                  width={1200}
+                  height={675}
                   className="max-h-[520px] w-full object-contain p-3"
                 />
               </div>
@@ -124,6 +156,15 @@ export function BlogPostPage() {
                 ))}
               </div>
             )}
+            <nav aria-label="Related pages" className="mt-10 border-t border-gray-100 pt-8 text-sm">
+              <Link to="/blog" className="font-semibold text-royal hover:text-gold">
+                Read more articles
+              </Link>
+              <span className="mx-3 text-gray-300" aria-hidden>•</span>
+              <Link to="/leadership" className="font-semibold text-royal hover:text-gold">
+                Explore leadership resources
+              </Link>
+            </nav>
           </div>
         </Container>
       </article>

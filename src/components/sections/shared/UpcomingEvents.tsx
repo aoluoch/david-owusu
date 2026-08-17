@@ -59,6 +59,9 @@ export function UpcomingEvents({
                       <img
                         className="h-full w-full object-contain p-3 transition duration-500 group-hover:scale-105"
                         loading="lazy"
+                        decoding="async"
+                        width={640}
+                        height={400}
                         src={event.imageUrl}
                         alt={event.imageAlt}
                       />

@@ -64,6 +64,10 @@ export function Hero() {
                 className="relative rounded-3xl shadow-2xl w-72 md:w-96 object-cover ring-1 ring-white/10"
                 style={{ aspectRatio: "3/4" }}
                 loading="eager"
+                decoding="async"
+                fetchPriority="high"
+                width={768}
+                height={1024}
                 src={hero.portraitUrl}
                 alt={hero.portraitAlt}
               />

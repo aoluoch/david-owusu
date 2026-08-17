@@ -61,6 +61,9 @@ export function GalleryGrid() {
                   src={img.url}
                   alt={img.alt}
                   loading="lazy"
+                  decoding="async"
+                  width={640}
+                  height={512}
                   className="w-full h-64 object-cover group-hover:scale-110 transition duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/0 to-transparent opacity-0 group-hover:opacity-100 transition" />
@@ -92,6 +95,9 @@ export function GalleryGrid() {
           <img
             src={lightbox.url}
             alt={lightbox.alt}
+            decoding="async"
+            width={1600}
+            height={1200}
             className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           />

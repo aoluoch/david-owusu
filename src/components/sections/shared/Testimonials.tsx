@@ -38,6 +38,9 @@ export function Testimonials() {
                     <img
                       className="h-12 w-12 rounded-full object-cover ring-2 ring-gold/30"
                       loading="lazy"
+                      decoding="async"
+                      width={96}
+                      height={96}
                       src={t.photoUrl}
                       alt={t.name}
                     />

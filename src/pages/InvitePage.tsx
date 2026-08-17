@@ -2,8 +2,22 @@ import { Container } from "../components/ui/Container";
 import { Reveal } from "../components/ui/Reveal";
 import { InquiryForm } from "../components/forms/InquiryForm";
 import { PageHero } from "../components/sections/shared";
+import { breadcrumbJsonLd, useSeo } from "../lib/seo";
 
 export function InvitePage() {
+  useSeo({
+    title: "Invite David Owusu to Speak",
+    description:
+      "Invite Dr. David Owusu to speak at your conference, leadership gathering, ministry event, or corporate engagement.",
+    path: "/invite",
+    jsonLd: [
+      breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Invite David", path: "/invite" },
+      ]),
+    ],
+  });
+
   return (
     <>
       <PageHero

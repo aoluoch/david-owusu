@@ -22,6 +22,9 @@ export function AboutPreview() {
                   className="relative rounded-2xl shadow-xl w-full object-cover"
                   style={{ aspectRatio: "4/5" }}
                   loading="lazy"
+                  decoding="async"
+                  width={640}
+                  height={800}
                   src={aboutPreview.imageUrl}
                   alt={aboutPreview.imageAlt}
                 />

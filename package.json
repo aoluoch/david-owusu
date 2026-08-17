@@ -5,7 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "seo:generate": "node scripts/generate-seo.mjs",
+    "prebuild": "npm run seo:generate",
+    "build": "tsc -b && vite build && npm run seo:routes",
+    "seo:routes": "node scripts/generate-seo.mjs --route-shells",
     "lint": "eslint .",
     "preview": "vite preview",
     "setup:appwrite": "node scripts/setup-appwrite.mjs"

@@ -1,6 +1,7 @@
 /**
  * Authentication context for the admin area, backed by Appwrite Account.
  */
+/* eslint-disable react-refresh/only-export-components */
 
 import {
   createContext,
@@ -51,6 +52,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
+    // Session state is initialized from Appwrite once when the provider mounts.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     refresh();
   }, [refresh]);
 

@@ -19,6 +19,8 @@ export function Navbar() {
   }, []);
 
   useEffect(() => {
+    // Route changes, including browser navigation, dismiss the mobile menu.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOpen(false);
   }, [location.pathname]);
 

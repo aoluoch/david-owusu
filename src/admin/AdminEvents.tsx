@@ -18,6 +18,8 @@ export function AdminEvents() {
       .finally(() => setLoading(false));
   };
 
+  // The initial request owns this screen's loading state.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(load, []);
 
   const handleDelete = async (event: EventItem) => {

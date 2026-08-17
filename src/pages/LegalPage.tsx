@@ -3,6 +3,7 @@ import type { LegalPageContent } from "../types/content";
 import { Container } from "../components/ui/Container";
 import { Reveal } from "../components/ui/Reveal";
 import { PageHero } from "../components/sections/shared";
+import { breadcrumbJsonLd, useSeo } from "../lib/seo";
 
 interface LegalPageProps {
   page: "privacy" | "terms";
@@ -11,6 +12,22 @@ interface LegalPageProps {
 export function LegalPage({ page }: LegalPageProps) {
   const { legal } = useContent();
   const content: LegalPageContent = legal[page];
+  const path = page === "privacy" ? "/privacy-policy" : "/terms-and-conditions";
+  const fallbackTitle = page === "privacy" ? "Privacy Policy" : "Terms and Conditions";
+
+  useSeo({
+    title: content.title || fallbackTitle,
+    description:
+      content.introduction ||
+      `Read the ${fallbackTitle.toLowerCase()} for the official David Owusu website.`,
+    path,
+    jsonLd: [
+      breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: content.title || fallbackTitle, path },
+      ]),
+    ],
+  });
 
   return (
     <>

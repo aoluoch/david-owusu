@@ -8,6 +8,12 @@ import { RichText } from "../components/ui/RichText";
 import { EventRegistrationButton } from "../components/sections/events";
 import { PageLoader } from "../components/ui/PageLoader";
 import { hasMediaUrl } from "../lib/utils";
+import {
+  breadcrumbJsonLd,
+  eventJsonLd,
+  stripHtml,
+  useSeo,
+} from "../lib/seo";
 
 export function EventDetailPage() {
   const { slug = "" } = useParams();
@@ -17,6 +23,27 @@ export function EventDetailPage() {
   } | null>(null);
   const loading = loaded?.slug !== slug;
   const event = loaded?.event ?? null;
+
+  useSeo({
+    title: loading ? "Event" : event?.title || "Event Not Found",
+    description:
+      event?.description ||
+      stripHtml(event?.body || "") ||
+      "Event details from Dr. David Owusu.",
+    path: `/events/${slug}`,
+    image: event?.imageUrl || undefined,
+    noindex: !loading && !event,
+    jsonLd: event
+      ? [
+          eventJsonLd(event),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Events", path: "/events" },
+            { name: event.title, path: `/events/${slug}` },
+          ]),
+        ]
+      : [],
+  });
 
   useEffect(() => {
     let mounted = true;
@@ -87,6 +114,11 @@ export function EventDetailPage() {
                   <img
                     src={event.imageUrl}
                     alt={event.imageAlt}
+                    loading="eager"
+                    decoding="async"
+                    fetchPriority="high"
+                    width={1200}
+                    height={675}
                     className="max-h-[520px] w-full object-contain p-3"
                   />
                 </div>
@@ -128,6 +160,15 @@ export function EventDetailPage() {
               </div>
             </aside>
           </div>
+          <nav aria-label="Related pages" className="mt-12 border-t border-gray-100 pt-8 text-sm">
+            <Link to="/events" className="font-semibold text-royal hover:text-gold">
+              Browse all events
+            </Link>
+            <span className="mx-3 text-gray-300" aria-hidden>•</span>
+            <Link to="/invite" className="font-semibold text-royal hover:text-gold">
+              Invite David to speak
+            </Link>
+          </nav>
         </Container>
       </section>
     </>

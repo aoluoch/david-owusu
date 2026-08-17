@@ -2,9 +2,25 @@ import { FeaturedEvent } from "../components/sections/events";
 import { PageHero, UpcomingEvents } from "../components/sections/shared";
 import { isPastEvent } from "../lib/eventDates";
 import { useContent } from "../lib/ContentContext";
+import { breadcrumbJsonLd, organizationJsonLd, useSeo } from "../lib/seo";
 
 export function EventsPage() {
-  const { events } = useContent();
+  const content = useContent();
+  const { events } = content;
+  useSeo({
+    title: "Events",
+    description:
+      "Leadership summits, business forums, prayer conferences, and international tours with Dr. David Owusu.",
+    path: "/events",
+    jsonLd: [
+      organizationJsonLd(content),
+      breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Events", path: "/events" },
+      ]),
+    ],
+  });
+
   const upcomingEvents = events.filter((event) => !isPastEvent(event));
   const featuredEvent = upcomingEvents.find((event) => event.featured);
   const listedUpcomingEvents = featuredEvent
