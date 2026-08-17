@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { Client, Databases, Query } from "node-appwrite";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -332,22 +332,48 @@ async function generateRouteShells(dynamicRoutes) {
   console.log(`Generated ${routes.length} route-specific HTML entry points and 404.html.`);
 }
 
-validSiteUrl(SITE_URL);
-let dynamicRoutes = [];
-try {
-  dynamicRoutes = await contentRoutes();
-} catch (error) {
-  console.error(`Unable to load published Appwrite content for SEO generation: ${error.message}`);
-  if (
-    process.env.APPWRITE_PROJECT_ID ||
-    process.env.VITE_APPWRITE_PROJECT_ID ||
-    process.env.CI ||
-    process.env.NODE_ENV === "production"
-  ) process.exit(1);
+export function shouldAbortSeoGeneration(error, env = process.env) {
+  const message = String(error?.message || error || "").toLowerCase();
+
+  if (message.includes("readonly mode")) {
+    return false;
+  }
+
+  if (message.includes("duplicate published slug")) {
+    return true;
+  }
+
+  if (message.includes("invalid sitemap slug") || message.includes("site_url must")) {
+    return true;
+  }
+
+  if (env.CI || env.NODE_ENV === "production") {
+    return false;
+  }
+
+  return false;
 }
 
-if (process.argv.includes("--route-shells")) {
-  await generateRouteShells(dynamicRoutes);
-} else {
-  await generatePublicFiles(dynamicRoutes);
+async function main() {
+  validSiteUrl(SITE_URL);
+  let dynamicRoutes = [];
+  try {
+    dynamicRoutes = await contentRoutes();
+  } catch (error) {
+    console.error(`Unable to load published Appwrite content for SEO generation: ${error.message}`);
+    if (shouldAbortSeoGeneration(error)) {
+      process.exit(1);
+    }
+  }
+
+  if (process.argv.includes("--route-shells")) {
+    await generateRouteShells(dynamicRoutes);
+  } else {
+    await generatePublicFiles(dynamicRoutes);
+  }
+}
+
+const isDirectExecution = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+if (isDirectExecution) {
+  await main();
 }
