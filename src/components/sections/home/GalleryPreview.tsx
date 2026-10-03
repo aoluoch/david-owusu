@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { useContent } from "../../../lib/ContentContext";
+import {
+  optimizedImageSrcSet,
+  optimizedImageUrl,
+} from "../../../lib/appwrite";
 import { hasMediaUrl } from "../../../lib/utils";
 import { Container } from "../../ui/Container";
 import { Reveal } from "../../ui/Reveal";
@@ -24,17 +28,21 @@ export function GalleryPreview() {
             .map((img, i) => (
             <Reveal key={(img.url || img.alt) + i} delay={(i % 4) * 100}>
               <div className="card-lift relative rounded-xl overflow-hidden group">
-                {hasMediaUrl(img.url) && (
-                  <img
-                    className="w-full h-56 object-cover group-hover:scale-110 transition duration-700"
-                    loading="lazy"
-                    decoding="async"
-                    width={640}
-                    height={448}
-                    src={img.url}
-                    alt={img.alt}
-                  />
-                )}
+                <img
+                  className="h-56 w-full bg-light object-cover transition duration-700 group-hover:scale-110"
+                  loading={i < 4 ? "eager" : "lazy"}
+                  decoding="async"
+                  width={640}
+                  height={448}
+                  src={optimizedImageUrl(img.url, {
+                    width: 640,
+                    quality: 70,
+                    output: "webp",
+                  })}
+                  srcSet={optimizedImageSrcSet(img.url, [400, 640, 960], 70)}
+                  sizes="(min-width: 768px) 25vw, 50vw"
+                  alt={img.alt}
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/0 to-transparent opacity-0 group-hover:opacity-100 transition" />
                 {img.category && (
                   <span className="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-white/90 text-navy text-xs font-semibold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition">

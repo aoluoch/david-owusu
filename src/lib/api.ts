@@ -17,6 +17,7 @@ import {
   databases,
   fileUrl,
   isAppwriteConfigured,
+  isPublicAppwriteContentEnabled,
   storage,
 } from "./appwrite";
 import { emptySiteContent } from "../data/siteContent";
@@ -172,7 +173,7 @@ function postToData(post: Partial<BlogPost>): Record<string, unknown> {
 export type SiteContentBlob = Omit<SiteContent, "events">;
 
 export async function fetchSiteContentBlob(): Promise<Partial<SiteContentBlob> | null> {
-  if (!isAppwriteConfigured) return null;
+  if (!isAppwriteConfigured || !isPublicAppwriteContentEnabled) return null;
   try {
     const doc = await databases.getDocument<AnyDoc>({
       databaseId,
@@ -234,7 +235,7 @@ export async function saveSiteContentBlob(
 export async function listEvents(
   opts: { publishedOnly?: boolean } = {},
 ): Promise<EventItem[]> {
-  if (!isAppwriteConfigured) {
+  if (!isAppwriteConfigured || !isPublicAppwriteContentEnabled) {
     return [];
   }
   try {
@@ -335,7 +336,7 @@ export async function deleteEvent(id: string): Promise<void> {
 export async function listPosts(
   opts: { publishedOnly?: boolean } = {},
 ): Promise<BlogPost[]> {
-  if (!isAppwriteConfigured) return [];
+  if (!isAppwriteConfigured || !isPublicAppwriteContentEnabled) return [];
   try {
     const queries = [Query.orderDesc("publishedAt"), Query.limit(100)];
     if (opts.publishedOnly) queries.push(Query.equal("published", true));

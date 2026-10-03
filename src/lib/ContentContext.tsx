@@ -15,6 +15,7 @@ import {
   appwriteConfig,
   collectionChannel,
   isAppwriteConfigured,
+  isPublicAppwriteContentEnabled,
   subscribe,
 } from "./appwrite";
 
@@ -34,7 +35,9 @@ const ContentContext = createContext<ContentContextValue>({
 
 export function ContentProvider({ children }: { children: ReactNode }) {
   const [content, setContent] = useState<SiteContent>(emptySiteContent);
-  const [loading, setLoading] = useState<boolean>(isAppwriteConfigured);
+  const [loading, setLoading] = useState<boolean>(
+    isAppwriteConfigured && isPublicAppwriteContentEnabled,
+  );
   const [source, setSource] = useState<"empty" | "appwrite">("empty");
 
   /** Re-fetch content without toggling the loading flag (for live updates). */
@@ -56,7 +59,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let mounted = true;
-    if (!isAppwriteConfigured) return;
+    if (!isAppwriteConfigured || !isPublicAppwriteContentEnabled) return;
     fetchSiteContent()
       .then((data) => {
         if (!mounted) return;
@@ -76,7 +79,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
   // Appwrite, re-fetch so the public site reflects admin edits without a manual
   // page refresh.
   useEffect(() => {
-    if (!isAppwriteConfigured) return;
+    if (!isAppwriteConfigured || !isPublicAppwriteContentEnabled) return;
     const unsubscribe = subscribe(
       [
         collectionChannel(appwriteConfig.siteContentCollectionId),

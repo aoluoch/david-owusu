@@ -31,12 +31,18 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
+function isAdminRouteActive(): boolean {
+  if (typeof window === "undefined") return false;
+  const pathname = window.location.pathname;
+  return pathname === "/admin" || pathname.startsWith("/admin/");
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   const refresh = useCallback(async () => {
-    if (!isAppwriteConfigured) {
+    if (!isAppwriteConfigured || !isAdminRouteActive()) {
       setUser(null);
       setLoading(false);
       return;

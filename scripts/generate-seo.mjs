@@ -357,12 +357,20 @@ export function shouldAbortSeoGeneration(error, env = process.env) {
 async function main() {
   validSiteUrl(SITE_URL);
   let dynamicRoutes = [];
-  try {
-    dynamicRoutes = await contentRoutes();
-  } catch (error) {
-    console.error(`Unable to load published Appwrite content for SEO generation: ${error.message}`);
-    if (shouldAbortSeoGeneration(error)) {
-      process.exit(1);
+  const appwriteSeoDisabled =
+    ["1", "true", "yes"].includes(String(process.env.DISABLE_APPWRITE_SEO || "").toLowerCase()) ||
+    !["1", "true", "yes"].includes(String(process.env.VITE_ENABLE_PUBLIC_APPWRITE_CONTENT || "").toLowerCase());
+
+  if (appwriteSeoDisabled) {
+    console.warn("Appwrite-backed SEO generation is disabled by default; using static public routes only.");
+  } else {
+    try {
+      dynamicRoutes = await contentRoutes();
+    } catch (error) {
+      console.error(`Unable to load published Appwrite content for SEO generation: ${error.message}`);
+      if (shouldAbortSeoGeneration(error)) {
+        process.exit(1);
+      }
     }
   }
 

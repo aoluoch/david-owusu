@@ -3,6 +3,7 @@ import { InputFile } from "node-appwrite/file";
 import sharp from "sharp";
 
 const DEFAULT_BUCKET_ID = "media";
+const DEFAULT_ENDPOINT = "https://fra.cloud.appwrite.io/v1";
 const MAX_WIDTH = Number(process.env.OPTIMIZE_MAX_WIDTH ?? 2200);
 const WEBP_QUALITY = Number(process.env.OPTIMIZE_WEBP_QUALITY ?? 82);
 const MIN_SAVINGS_RATIO = Number(process.env.OPTIMIZE_MIN_SAVINGS_RATIO ?? 0.08);
@@ -29,22 +30,33 @@ function parseBody(req) {
   }
 }
 
-function getAppwriteEnv() {
+function getAppwriteEnv(req) {
+  // The node-22 runtime does not expose APPWRITE_FUNCTION_API_ENDPOINT, so the
+  // project's regional endpoint is the fallback.
   const endpoint =
     process.env.APPWRITE_FUNCTION_API_ENDPOINT ??
     process.env.APPWRITE_ENDPOINT ??
-    process.env.VITE_APPWRITE_ENDPOINT;
+    process.env.VITE_APPWRITE_ENDPOINT ??
+    DEFAULT_ENDPOINT;
   const projectId =
     process.env.APPWRITE_FUNCTION_PROJECT_ID ??
     process.env.APPWRITE_PROJECT_ID ??
     process.env.VITE_APPWRITE_PROJECT_ID;
+  // Appwrite v5 runtimes deliver the function's dynamic API key as a request
+  // header rather than an environment variable.
   const apiKey =
-    process.env.APPWRITE_FUNCTION_API_KEY ?? process.env.APPWRITE_API_KEY;
+    req?.headers?.["x-appwrite-key"] ??
+    process.env.APPWRITE_FUNCTION_API_KEY ??
+    process.env.APPWRITE_API_KEY;
 
-  if (!endpoint || !projectId || !apiKey) {
-    throw new Error(
-      "Missing Appwrite endpoint, project ID, or function API key.",
-    );
+  const missing = [
+    !endpoint && "endpoint",
+    !projectId && "project ID",
+    !apiKey && "API key",
+  ].filter(Boolean);
+
+  if (missing.length > 0) {
+    throw new Error(`Missing Appwrite ${missing.join(", ")}.`);
   }
 
   return { endpoint, projectId, apiKey };
@@ -103,7 +115,7 @@ export default async ({ req, res, log, error }) => {
       });
     }
 
-    const { endpoint, projectId, apiKey } = getAppwriteEnv();
+    const { endpoint, projectId, apiKey } = getAppwriteEnv(req);
     const client = new Client()
       .setEndpoint(endpoint)
       .setProject(projectId)
